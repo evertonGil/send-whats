@@ -5,11 +5,11 @@ import {
   Router,
   RouterStateSnapshot,
 } from "@angular/router";
-import { LoginService } from "../services/auth.service";
+import { AuthService } from "../services/auth.service";
 
 @Injectable({ providedIn: "root" })
 export class LogingGuard implements CanActivate {
-  constructor(private router: Router, private loginService: LoginService) {}
+  constructor(private router: Router, private loginService: AuthService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.checkLoggedIn();

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 declare const google: any;
 
 @Component({
-  selector: 'app-maps',
+  selector: 'dsw-maps',
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.scss']
 })

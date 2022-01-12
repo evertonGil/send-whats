@@ -10,7 +10,7 @@ import {
 } from "../../variables/charts";
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'dsw-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
-export class LoginService {
+export class AuthService {
     constructor(private httpClient: HttpClient) { }
 
     signIn(): Subject<boolean> {

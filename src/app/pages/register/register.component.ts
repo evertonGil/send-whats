@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-register',
+  selector: 'dsw-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
 
   constructor() { }
+
+  passwordStrength = 'fraca';
 
   ngOnInit() {
   }

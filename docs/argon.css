@@ -15141,7 +15141,7 @@ button.bg-lighter:focus
 
 .bg-gradient-green
 {
-    background: linear-gradient(87deg, #2dce89 0, #2dcecc 100%) !important;
+    background: linear-gradient(87deg, #009688 0,#19b688 100%) !important
 }
 
 .bg-gradient-teal

@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -11,16 +11,17 @@ import { AuthLayoutComponent } from './core/auth-layout/auth-layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
-import { ComponentsModule } from './shared/shared.module';
-import { LoginService } from './services/auth.service';
+import { SharedModule } from './shared/shared.module';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    ComponentsModule,
+    SharedModule,
     NgbModule,
     RouterModule,
     AppRoutingModule
@@ -30,7 +31,7 @@ import { LoginService } from './services/auth.service';
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [LoginService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
