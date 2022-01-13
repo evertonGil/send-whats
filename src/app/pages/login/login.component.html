@@ -21,31 +21,30 @@
       <div class="card bg-secondary shadow border-0">
         <div class="card-body px-lg-5 py-lg-5">
 
-          <form role="form" [formGroup]="employeeDetailsForm" (submit)="signIn($event)">
+          <form role="form" [formGroup]="loginForm" (submit)="signIn($event)">
             <div class="form-group mb-3">
-              <dsw-input-control>
-                <input inputArea class="form-control" placeholder="Email" formControlName="email" type="email">
-                <span firstAppend class="input-group-text">
-                  <i class="ni ni-email-83"></i>
-                </span>
+              <dsw-input-control label="E-mail" iconAddon="ni ni-email-83">
+                <input inputSlot class="form-control" placeholder="Email" formControlName="login" type="email">
               </dsw-input-control>
             </div>
             <div class="form-group">
-              <dsw-input-control>
-                <span firstAppend class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                <input inputArea class="form-control" id="password" #passwordInput formControlName="password"
+              <dsw-input-control label="Senha" iconAddon="ni ni-lock-circle-open" [showAppend]="true">
+
+                <input inputSlot class="form-control" id="password" #passwordInput formControlName="password"
                   placeholder="Senha" type="password">
-                <button secondAppend class="input-group-text passwordshow__Button" (click)="tooglePassword()">
+                  
+                <button append type="button" class="input-group-text passwordshow__Button" (click)="tooglePassword()">
                   <i [ngClass]="passwordInputIcon"></i>
                 </button>
               </dsw-input-control>
             </div>
-            <div class="custom-control custom-control-alternative custom-checkbox">
+            <span *ngIf="messageApiError">{{messageApiError}}</span>
+            <!-- <div class="custom-control custom-control-alternative custom-checkbox">
               <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
               <label class="custom-control-label" for=" customCheckLogin">
                 <span class="text-muted">Lembrar meu login</span>
               </label>
-            </div>
+            </div> -->
             <div class="text-center">
               <button type="submit" class="btn btn-primary my-4">Entrar</button>
             </div>
