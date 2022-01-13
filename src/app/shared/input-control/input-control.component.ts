@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'dsw-input-control',
@@ -6,10 +6,19 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./input-control.component.scss']
 })
 export class InputControlComponent implements OnInit {
+  @Input() for: string;
+  @Input() label: string;
+  @Input() iconAddon: string;
+  @Input() showAppend: boolean;
+  @ViewChild('refInput') refInput;
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log('input:', this.iconAddon)
   }
 
+  ngAfterViewChecked(): void {
+    console.log('refInput:', this.refInput)
+  }
 }
