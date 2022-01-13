@@ -70,7 +70,8 @@
                 },
                 "fonts": true
               },
-             "outputHashing": "all",
+              "sourceMap": true,
+             "outputHashing": "none"
            }
           }
         },
@@ -87,7 +88,7 @@
               "browserTarget": "dashboard-send-whats:build:development"
             }
           },
-          "defaultConfiguration": "production",
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
