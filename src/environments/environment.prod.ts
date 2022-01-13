@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  FEATURE_API: "localhost:5000"
 };
