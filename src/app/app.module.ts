@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { SharedModule } from './shared/shared.module';
 import { AuthService } from './services/auth.service';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { AuthService } from './services/auth.service';
     SharedModule,
     NgbModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ToastrModule.forRoot(),
   ],
   declarations: [
     AppComponent,
