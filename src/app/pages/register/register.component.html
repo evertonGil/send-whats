@@ -71,9 +71,15 @@
 
             <div class="row" formGroupName="address">
               <div class="col-lg-4">
-                <dsw-input-control label="CEP" for="zipCode">
-                  <input inputSlot class="form-control" id="zipCode" formControlName="zipCode"
+                <dsw-input-control label="CEP" for="zipCode" [showAppend]="true">
+
+                  <input inputSlot class="form-control" id="zipCode" (change)="dispatchSearchZipCode()" formControlName="zipCode"
                     placeholder="Ex.: 0000-000" type="text" />
+
+                    <button append type="button" class="input-group-text passwordshow__Button" (click)="dispatchSearchZipCode()">
+                      <i class="fas fa-search"></i>
+                    </button>
+
                 </dsw-input-control>
               </div>
 
@@ -103,7 +109,7 @@
                     placeholder="Digite seu Bairro" type="text" />
                 </dsw-input-control>
               </div>
-              
+
               <div class="col-lg-6">
                 <dsw-input-control label="Cidade" for="city">
                   <input inputSlot class="form-control" id="city" formControlName="city" placeholder="São paulo"

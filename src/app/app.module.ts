@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app.routing';
 import { SharedModule } from './shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { ToastrModule } from 'ngx-toastr';
+import { AddressService } from './services/address.service';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { ToastrModule } from 'ngx-toastr';
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [AuthService],
+  providers: [AuthService, AddressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
