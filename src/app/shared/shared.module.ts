@@ -6,13 +6,15 @@ import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { InputControlComponent } from './input-control/input-control.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputIconComponent } from './input-icon/input-icon.component';
+import { MultiInputListComponent } from './multi-input-list/multi-input-list.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    FormsModule,
     ReactiveFormsModule,
     NgbModule
   ],
@@ -21,13 +23,15 @@ import { InputIconComponent } from './input-icon/input-icon.component';
     NavbarComponent,
     SidebarComponent,
     InputControlComponent,
-    InputIconComponent
+    InputIconComponent,
+    MultiInputListComponent
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
-    InputControlComponent
+    InputControlComponent,
+    MultiInputListComponent
   ]
 })
 export class SharedModule { }
