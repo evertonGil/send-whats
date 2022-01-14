@@ -69,9 +69,6 @@ export class RegisterComponent implements OnInit {
                 country: address.country
               }
             })
-          // .setValue({
-          //   address
-          // })
         })
     }
 
