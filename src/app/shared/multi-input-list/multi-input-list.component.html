@@ -1,0 +1,18 @@
+<div class="row" [id]="idGroup" *ngFor="let item of _val | keyvalue; index as indx">
+  <div class="col-md-9">
+    <dsw-input-control for="uf">
+      <input inputSlot [id]="item.key" [(ngModel)]="_val[item.key]" (change)="dispatchChange()" [ngClass]="classInput" [placeholder]="placeholder" [type]="type" />
+    </dsw-input-control>
+  </div>
+  <div class="col-md-3">
+    <button *ngIf="_length -1 == indx" class="btn btn-icon-only btn-sm btn-success" (click)="addNewInput()"
+      type="button">
+      <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
+    </button>
+
+    <button *ngIf="_length -1 != indx" class="btn btn-icon-only btn-sm btn-danger" (click)="removeInput(item.key)"
+      type="button">
+      <span class="btn-inner--icon"><i class="fas fa-trash"></i></span>
+    </button>
+  </div>
+</div>
