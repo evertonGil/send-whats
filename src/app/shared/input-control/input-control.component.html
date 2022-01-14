@@ -1,16 +1,19 @@
 <div class="form-group">
   <label *ngIf="label" class="form-control-label" [for]="for">{{label}}</label>
-  
+
   <div class="input-group input-group-alternative">
-  
+
     <div *ngIf="iconAddon" class="input-group-prepend">
       <span firstAppend class="input-group-text"><i [ngClass]="iconAddon"></i></span>
     </div>
-  
+
     <ng-content #refInput select="[inputSlot]"></ng-content>
-  
+
     <div *ngIf="showAppend" class="input-group-append">
       <ng-content select="[append]"></ng-content>
     </div>
+
   </div>
+
+  <ng-content select="[aboveArea]"></ng-content>
 </div>

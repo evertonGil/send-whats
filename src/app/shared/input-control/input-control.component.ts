@@ -15,10 +15,8 @@ export class InputControlComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('input:', this.iconAddon)
   }
 
   ngAfterViewChecked(): void {
-    console.log('refInput:', this.refInput)
   }
 }
