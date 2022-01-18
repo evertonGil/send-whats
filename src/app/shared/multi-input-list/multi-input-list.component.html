@@ -1,7 +1,7 @@
 <div class="row" [id]="idGroup" *ngFor="let key of list_inputs; index as indx">
   <div class="col-md-9">
     <dsw-input-control for="uf">
-      <input dwsInputSlot [id]="key" dwsPhoneValidator [(ngModel)]="_val[key]" (change)="dispatchChange()" [ngClass]="classInput" [placeholder]="placeholder" [type]="type" required/>
+      <input dwsInputSlot [id]="key" dwsPhoneValidator [(ngModel)]="_val[key]" (change)="dispatchChange()" (blur)="dispatchTouch()" [ngClass]="classInput" [placeholder]="placeholder" [type]="type" required/>
     </dsw-input-control>
   </div>
   <div class="col-md-3">

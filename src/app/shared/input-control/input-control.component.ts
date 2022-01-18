@@ -17,8 +17,6 @@ export class InputControlComponent implements OnInit {
 
   @ContentChild(InputRefDirective)
   InputRef: InputRefDirective;
-  valid = false;
-  touched = false;
   _errorMsgMap: {[key: string]: string}
 
   constructor() {
@@ -35,20 +33,14 @@ export class InputControlComponent implements OnInit {
     return this.InputRef?.control
   }
 
+  get touched() {
+    return this.inputControl.touched;
+  }
+
+  get valid(){
+    return this.inputControl.valid;
+  }
+
   ngAfterViewInit(): void {
-    
-    const inputHtml: HTMLInputElement = this.InputRef?.el?.nativeElement;
-    
-    console.log("input", inputHtml.id, this.InputRef);
-    
-    this.inputControl?.statusChanges.subscribe(status => {
-      this.valid = this.inputControl.valid;
-      this.touched = this.inputControl.touched;
-    });
-
-    inputHtml?.addEventListener('blur', _ => {
-      this.touched = this.inputControl.touched;
-    })
-
   }
 }

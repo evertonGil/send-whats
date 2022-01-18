@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { AddressType } from 'src/app/models/AddressType';
 import { AddressService } from 'src/app/services/address.service';
+import { samePasswordValidator } from 'src/app/shared/validators/same-password.directive';
 
 @Component({
   selector: 'dsw-register',
@@ -33,11 +34,9 @@ export class RegisterComponent implements OnInit {
     idUser: ['', Validators.required],
     user: this.fb.group({
       password: ['', Validators.required],
-      passwordAgain: ['', Validators.required]
-    })
+      passwordAgain: ['', [Validators.required]]
+    }, { validators: [samePasswordValidator('password', 'passwordAgain')] })
   });
-
-  passwordStrength = 'fraca';
 
   ngOnInit() {
   }
@@ -45,6 +44,8 @@ export class RegisterComponent implements OnInit {
   onSubmit(event: Event) {
 
     event.preventDefault();
+    
+    this.registerForm.markAllAsTouched();
 
     console.log(this.registerForm.value);
   }

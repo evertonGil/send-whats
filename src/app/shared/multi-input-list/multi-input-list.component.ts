@@ -1,6 +1,7 @@
-import { ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgForm, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AfterViewChecked, ApplicationRef, ChangeDetectionStrategy, ChangeDetectorRef, Component, forwardRef, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { ControlValueAccessor, NgForm, NgModel, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Random } from '../helpers/random';
+import { InputRefDirective } from '../input-control/input-ref.directive';
 
 @Component({
   selector: 'dsw-multi-input-list',
@@ -19,7 +20,8 @@ export class MultiInputListComponent implements ControlValueAccessor {
   @Input() classInput: string;
   @Input() placeholder: string;
   @Input() type: string;
-  @ViewChild('form') groupForm: NgForm;
+  @Input() touched: boolean;
+  @ViewChildren(NgModel) InputRef: QueryList<NgModel>;
 
   disabled: boolean;
 
@@ -31,33 +33,45 @@ export class MultiInputListComponent implements ControlValueAccessor {
   onTouched: () => void
 
   get _length() {
-    return Object.keys(this._val).length
+    return Object.keys(this._val).length;
   }
 
-  constructor(private cd: ChangeDetectorRef, private appRef: ApplicationRef) {
-    this.newInput(Random.makeNewKey(5, this.lastIndex), "")
-   }
+  constructor() {
+    this.createInput(Random.makeNewKey(5, this.lastIndex), "");
+    console.log('multi-list:', this);
+  }
+
+  ngOnChanges() {
+    this.InputRef?.forEach(control => {
+      if (this.touched) {
+        control.control.markAsTouched();
+      }
+    });
+  }
 
   addNewInput() {
     this.lastIndex++;
-    this.newInput(Random.makeNewKey(5, this.lastIndex), "")
-    console.log(this._val, this.groupForm);
+    this.createInput(Random.makeNewKey(5, this.lastIndex), "");
     this.dispatchChange();
+    this.dispatchTouch();
   }
 
-  newInput(key: string, value: string){
-      this._val[key] = value;
-      this.list_inputs.push(key);
+  createInput(key: string, value: string) {
+    this._val[key] = value;
+    this.list_inputs.push(key);
   }
 
-  resetInputs(){
+  resetInputs() {
     this._val = {};
     this.list_inputs = [];
   }
 
   removeInput(key) {
     delete this._val[key];
+    this.list_inputs.splice(this.list_inputs.indexOf(key), 1)
+
     this.dispatchChange();
+    this.dispatchTouch();
   }
 
   writeValue(array: string[]): void {
@@ -70,7 +84,7 @@ export class MultiInputListComponent implements ControlValueAccessor {
 
       array.forEach((item, i) => {
         this.lastIndex = i;
-        this.newInput(Random.makeNewKey(5, this.lastIndex), item);
+        this.createInput(Random.makeNewKey(5, this.lastIndex), item);
       });
 
     } else {
@@ -82,7 +96,7 @@ export class MultiInputListComponent implements ControlValueAccessor {
     this.onChange = fn;
   }
   dispatchChange() {
-    this.onChange(Object.values(this._val))
+    this.onChange(Object.values(this._val));
   }
 
   registerOnTouched(fn: any): void {
@@ -90,7 +104,7 @@ export class MultiInputListComponent implements ControlValueAccessor {
   }
 
   dispatchTouch() {
-    this.onTouched()
+    this.onTouched();
   }
 
   setDisabledState?(isDisabled: boolean): void {
