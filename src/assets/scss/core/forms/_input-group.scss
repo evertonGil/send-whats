@@ -37,6 +37,14 @@
     border: 0;
     transition: box-shadow .15s ease;
 
+	&:focus-within{
+		box-shadow: $input-focus-alternative-box-shadow !important;
+	}
+
+	&.ng-invalid.ng-touched{
+		box-shadow: $input-danger-alternative-box-shadow !important;
+	}
+
     .form-control,
     .input-group-text {
         border: 0;

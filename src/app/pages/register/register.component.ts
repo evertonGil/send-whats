@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
     lastName: ['', Validators.required],
     docNumber: ['', Validators.required],
     docType: ['', Validators.required],
-    email: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
     address: this.fb.group({
       address: ['', Validators.required],
       district: ['', Validators.required],

@@ -1,7 +1,7 @@
-<div class="row" [id]="idGroup" *ngFor="let item of _val | keyvalue; index as indx">
+<div class="row" [id]="idGroup" *ngFor="let key of list_inputs; index as indx">
   <div class="col-md-9">
     <dsw-input-control for="uf">
-      <input inputSlot [id]="item.key" [(ngModel)]="_val[item.key]" (change)="dispatchChange()" [ngClass]="classInput" [placeholder]="placeholder" [type]="type" />
+      <input dwsInputSlot [id]="key" dwsPhoneValidator [(ngModel)]="_val[key]" (change)="dispatchChange()" [ngClass]="classInput" [placeholder]="placeholder" [type]="type" required/>
     </dsw-input-control>
   </div>
   <div class="col-md-3">
@@ -10,7 +10,7 @@
       <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
     </button>
 
-    <button *ngIf="_length -1 != indx" class="btn btn-icon-only btn-sm btn-danger" (click)="removeInput(item.key)"
+    <button *ngIf="_length -1 != indx" class="btn btn-icon-only btn-sm btn-danger" (click)="removeInput(key)"
       type="button">
       <span class="btn-inner--icon"><i class="fas fa-trash"></i></span>
     </button>

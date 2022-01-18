@@ -5,7 +5,7 @@ import { Random } from '../helpers/random';
 @Component({
   selector: 'dsw-multi-input-list',
   templateUrl: './multi-input-list.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./multi-input-list.component.scss'],
   providers: [
     {
@@ -19,12 +19,13 @@ export class MultiInputListComponent implements ControlValueAccessor {
   @Input() classInput: string;
   @Input() placeholder: string;
   @Input() type: string;
-  @ViewChild('f') courseForm: NgForm;
+  @ViewChild('form') groupForm: NgForm;
 
   disabled: boolean;
-  _val = {
-    [Random.makeNewKey(5)]: ''
-  };
+
+  _val = {};
+  list_inputs = [];
+
   lastIndex = 0;
   onChange: (_: any) => void
   onTouched: () => void
@@ -33,27 +34,30 @@ export class MultiInputListComponent implements ControlValueAccessor {
     return Object.keys(this._val).length
   }
 
-  constructor(private cd: ChangeDetectorRef, private appRef: ApplicationRef) { }
+  constructor(private cd: ChangeDetectorRef, private appRef: ApplicationRef) {
+    this.newInput(Random.makeNewKey(5, this.lastIndex), "")
+   }
 
   addNewInput() {
     this.lastIndex++;
-    const key = Random.makeNewKey(5, this.lastIndex);
-    this._val[key] = "";
-    console.log(this._val);
+    this.newInput(Random.makeNewKey(5, this.lastIndex), "")
+    console.log(this._val, this.groupForm);
     this.dispatchChange();
-    this.cd.detectChanges();
+  }
+
+  newInput(key: string, value: string){
+      this._val[key] = value;
+      this.list_inputs.push(key);
+  }
+
+  resetInputs(){
+    this._val = {};
+    this.list_inputs = [];
   }
 
   removeInput(key) {
     delete this._val[key];
     this.dispatchChange();
-    this.cd.detectChanges();
-  }
-
-  ngAfterViewInit() {
-    console.log('antes', this.appRef.viewCount)
-    this.cd.detach();
-    console.log('depois', this.appRef.viewCount)
   }
 
   writeValue(array: string[]): void {
@@ -62,13 +66,12 @@ export class MultiInputListComponent implements ControlValueAccessor {
         array.push("");
       }
 
-      this._val = {};
+      this.resetInputs();
+
       array.forEach((item, i) => {
         this.lastIndex = i;
-        this._val[i] = item
+        this.newInput(Random.makeNewKey(5, this.lastIndex), item);
       });
-
-      this.cd.detectChanges();
 
     } else {
       throw new Error("O valor do MultiInputListComponent deve ser um array")

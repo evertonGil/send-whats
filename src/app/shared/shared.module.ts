@@ -9,6 +9,8 @@ import { InputControlComponent } from './input-control/input-control.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputIconComponent } from './input-icon/input-icon.component';
 import { MultiInputListComponent } from './multi-input-list/multi-input-list.component';
+import { InputRefDirective } from './input-control/input-ref.directive';
+import { PhoneValidator } from './validators/telefone-validator.directive';
 
 @NgModule({
   imports: [
@@ -24,14 +26,18 @@ import { MultiInputListComponent } from './multi-input-list/multi-input-list.com
     SidebarComponent,
     InputControlComponent,
     InputIconComponent,
-    MultiInputListComponent
+    MultiInputListComponent,
+    InputRefDirective,
+    PhoneValidator
   ],
   exports: [
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
     InputControlComponent,
-    MultiInputListComponent
+    MultiInputListComponent,
+    InputRefDirective,
+    PhoneValidator
   ]
 })
 export class SharedModule { }

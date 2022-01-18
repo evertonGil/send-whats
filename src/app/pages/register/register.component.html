@@ -29,28 +29,28 @@
 
             <div class="row">
               <div class="col-lg-4">
-                <dsw-input-control label="Primeiro nome" for="name">
-                  <input inputSlot class="form-control" id="name" formControlName="name"
+                <dsw-input-control label="Primeiro nome" for="name" >
+                  <input dwsInputSlot class="form-control" #refName id="name" formControlName="name"
                     placeholder="Digite seu primeiro nome" type="text" />
                 </dsw-input-control>
               </div>
               <div class="col-lg-8">
                 <dsw-input-control label="Sobrenome" for="lastName">
-                  <input inputSlot class="form-control" id="lastName" formControlName="lastName"
+                  <input dwsInputSlot class="form-control" id="lastName" formControlName="lastName"
                     placeholder="Digite seu sobrenome" type="text" />
                 </dsw-input-control>
               </div>
 
               <div class="col-lg-12">
-                <dsw-input-control label="E-mail" for="email" iconAddon="ni ni-email-83">
-                  <input inputSlot class="form-control" id="email" formControlName="email"
+                <dsw-input-control label="E-mail" for="email" iconAddon="ni ni-email-83" [errorMsgMap]="{email: 'Formato de e-mail inválido'}">
+                  <input dwsInputSlot class="form-control" id="email" formControlName="email"
                     placeholder="Ex.: email@gmail.com" type="email" />
                 </dsw-input-control>
               </div>
 
               <div class="col-lg-4">
                 <dsw-input-control label="Tipo" for="docType">
-                  <select inputSlot id="docType" class="custom-select form-control" formControlName="docType">
+                  <select dwsInputSlot id="docType" class="custom-select form-control" formControlName="docType">
                     <option value="1">CPF</option>
                     <option value="2">CNPJ</option>
                   </select>
@@ -58,7 +58,7 @@
               </div>
               <div class="col-lg-8">
                 <dsw-input-control label="Documento" for="docNumber">
-                  <input inputSlot class="form-control" id="docNumber" formControlName="docNumber"
+                  <input dwsInputSlot class="form-control" id="docNumber" formControlName="docNumber"
                     placeholder="Ex.: 111.111.111-9" type="email" />
                 </dsw-input-control>
               </div>
@@ -73,7 +73,7 @@
               <div class="col-lg-4">
                 <dsw-input-control label="CEP" for="zipCode" [showAppend]="true">
 
-                  <input inputSlot class="form-control" id="zipCode" (change)="dispatchSearchZipCode()" formControlName="zipCode"
+                  <input dwsInputSlot class="form-control" id="zipCode" (change)="dispatchSearchZipCode()" formControlName="zipCode"
                     placeholder="Ex.: 0000-000" type="text" />
 
                     <button append type="button" class="input-group-text passwordshow__Button" (click)="dispatchSearchZipCode()">
@@ -85,40 +85,40 @@
 
               <div class="col-md-12">
                 <dsw-input-control label="Endereço" for="address">
-                  <input inputSlot class="form-control" id="address" formControlName="address"
+                  <input dwsInputSlot class="form-control" id="address" formControlName="address"
                     placeholder="Ex.: Rua São João" type="text" />
                 </dsw-input-control>
               </div>
 
               <div class="col-md-3">
                 <dsw-input-control label="Número" for="number">
-                  <input inputSlot class="form-control" id="number" formControlName="number"
+                  <input dwsInputSlot class="form-control" id="number" formControlName="number"
                     placeholder="Ex.: 200, 300 ..." type="number" />
                 </dsw-input-control>
               </div>
               <div class="col-md-9">
                 <dsw-input-control label="Complemento" for="complemento">
-                  <input inputSlot class="form-control" id="complemento" formControlName="complemento"
+                  <input dwsInputSlot class="form-control" id="complemento" formControlName="complemento"
                     placeholder="Ex.: ap 20B, Casa 1, Cj 6 ..." type="text" />
                 </dsw-input-control>
               </div>
 
               <div class="col-lg-12">
                 <dsw-input-control label="Bairro" for="district">
-                  <input inputSlot class="form-control" id="district" formControlName="district"
+                  <input dwsInputSlot class="form-control" id="district" formControlName="district"
                     placeholder="Digite seu Bairro" type="text" />
                 </dsw-input-control>
               </div>
 
               <div class="col-lg-6">
                 <dsw-input-control label="Cidade" for="city">
-                  <input inputSlot class="form-control" id="city" formControlName="city" placeholder="São paulo"
+                  <input dwsInputSlot class="form-control" id="city" formControlName="city" placeholder="São paulo"
                     type="text" />
                 </dsw-input-control>
               </div>
               <div class="col-lg-6">
                 <dsw-input-control label="Estado" for="uf">
-                  <input inputSlot class="form-control" id="uf" formControlName="uf" placeholder="Ex.: SP, RJ ..."
+                  <input dwsInputSlot class="form-control" id="uf" formControlName="uf" placeholder="Ex.: SP, RJ ..."
                     type="text" />
                 </dsw-input-control>
               </div>
@@ -135,7 +135,7 @@
             <div class="row" formGroupName="user">
               <div class="col-lg-12">
                 <dsw-input-control label="Senha" for="password">
-                  <input inputSlot class="form-control" id="password" formControlName="password" placeholder="***"
+                  <input dwsInputSlot class="form-control" id="password" formControlName="password" placeholder="***"
                     type="password" />
                   <div aboveArea class="text-muted font-italic">
                     <small>password strength:
@@ -148,7 +148,7 @@
 
               <div class="col-lg-12">
                 <dsw-input-control label="Repetir Senha" for="passwordAgain">
-                  <input inputSlot class="form-control" id="passwordAgain" formControlName="passwordAgain"
+                  <input dwsInputSlot class="form-control" id="passwordAgain" formControlName="passwordAgain"
                     placeholder="***" type="password" />
                 </dsw-input-control>
               </div>
