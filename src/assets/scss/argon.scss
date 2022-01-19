@@ -58,6 +58,9 @@
 @import "~bootstrap/scss/utilities";
 @import "~bootstrap/scss/print";
 
+// regular style toast
+@import '~ngx-toastr/toastr';
+
 // Argon utilities and components
 
 @import "custom/reboot";

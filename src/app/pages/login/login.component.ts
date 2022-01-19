@@ -1,8 +1,11 @@
+import { HttpResponse } from "@angular/common/http";
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 import { ToastrService } from "ngx-toastr";
 import { catchError, throwError } from "rxjs";
+import { signin } from "src/app/redux/actions/client.action";
 import { AuthService } from "src/app/services/auth.service";
 
 @Component({
@@ -17,7 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private store: Store
   ) { }
 
   messageApiError: string;
@@ -56,7 +60,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     event.preventDefault();
 
     if (this.loginForm.valid) {
-      console.log('Login');
 
       const { login, password } = this.loginForm.value;
 
@@ -64,15 +67,12 @@ export class LoginComponent implements OnInit, OnDestroy {
         .pipe(catchError((err, _) => {
           console.log('err', err);
           if (err.error) {
-            this.messageApiError = err.error?.data?.message;
-            this.toastr.success('erro', err.error?.data?.message);
+            this.messageApiError = 'Usuario ou senha invalidos!';
+            this.toastr.error('', 'Usuario ou senha invalidos!');
           }
           return throwError(err.message);
         }))
-        .subscribe((res) => {
-          console.log('resposta login', res);
-          this.toastr.success('Hello world!', 'Toastr fun!');
-
+        .subscribe(_ => {
           this.router.navigate(["/dashboard"]);
         });
     }

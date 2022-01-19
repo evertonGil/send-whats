@@ -1,24 +1,35 @@
 import { AddressType } from "./AddressType"
 
-export interface ClientType {
-  id: string
-  name: string
-  lastName: string
-  docNumber: string
-  docType: number
-  email: string
-  address: AddressType
-  phone: string
-  idUser: string
-  user: UserType
-  status: number
+export interface ClientApiType {
+  id?: string
+  name?: string
+  lastName?: string
+  docNumber?: string
+  docType?: number
+  email?: string
+  address?: AddressType
+  phone?: string
+  idUser?: string
+  user?: UserApiType
+  status?: number
+}
+
+export interface ClientStoreType extends ClientApiType {
+  user: UserStoreType
+}
+
+export interface UserApiType extends UserType {
+  token?: string
+}
+
+export interface UserStoreType extends UserType {
+  signed: boolean
 }
 
 export interface UserType {
   id?: string
-  login: string
-  password: string
-  role: string
-  token?: string
+  login?: string
+  password?: string
+  role: string  
 }
 

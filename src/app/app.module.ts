@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -15,7 +15,13 @@ import { SharedModule } from './shared/shared.module';
 import { AuthService } from './services/auth.service';
 import { ToastrModule } from 'ngx-toastr';
 import { AddressService } from './services/address.service';
+import { AuthTokenInterceptor } from './core/auth.interceptor';
 
+import { MetaReducer, StoreModule } from '@ngrx/store';
+import { clientReducer } from './redux/reducers/client.reducer';
+import { hydrationMetaReducer } from './redux/meta-reducers/hydrationMetaReducer';
+
+export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
 
 @NgModule({
   imports: [
@@ -28,13 +34,18 @@ import { AddressService } from './services/address.service';
     RouterModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
+    StoreModule.forRoot({ client: clientReducer }, {metaReducers})
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent
   ],
-  providers: [AuthService, AddressService],
+  providers: [
+    AuthService, 
+    AddressService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

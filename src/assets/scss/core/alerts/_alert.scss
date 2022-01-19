@@ -44,3 +44,25 @@
         border-bottom: 1px dotted rgba($white, .5);
     }
 }
+
+
+
+
+
+.toast-success {
+    background-color: $success;
+}
+.toast-error {
+    background-color: $danger;
+}
+.toast-info {
+    background-color: $info;
+}
+.toast-warning {
+    background-color: $warning;
+}
+.toast-container .ngx-toastr:hover {
+    box-shadow: none;
+    opacity: 1;
+    cursor: pointer;
+  }
