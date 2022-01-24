@@ -12,3 +12,13 @@ export const selectUser = createSelector(
   selectFeature,
   (state: ClientStoreType) => state.user
 );
+
+export const selectClient = createSelector(
+  selectFeature,
+  (state: ClientStoreType) => state
+);
+
+export const selectToken = createSelector(
+  selectFeature,
+  (state: ClientStoreType) => state.user.token
+);

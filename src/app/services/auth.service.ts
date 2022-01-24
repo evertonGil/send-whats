@@ -24,15 +24,15 @@ export class AuthService {
         const subject = new Subject<{sucess: boolean,message: string }>();
 
         return this.httpClient
-            .post(`${environment.FEATURE_API}/Authenticate/login`, { login, password, role }, {
+            .post<ReponseWrapper<ClientApiType>>(`${environment.FEATURE_API}/Authenticate/login`, { login, password, role }, {
                 headers: {
                     'Access-Control-Allow-Credentials': 'true'
                     , 'Content-Type': 'application/json'
                     , 'Access-Control-Allow-Origin': '*'
                 }
-            }).pipe(map((res: ReponseWrapper<ClientApiType>) => {
-                const {role,  id, login} = res.user;
-                this.store.dispatch(signinAction({signed: true, role, id, login}));
+            }).pipe(map(res => {
+                const {role,  id, login, token} = res.user;
+                this.store.dispatch(signinAction({signed: true, role, id, login, token}));
                 return res;
             }));         
     }

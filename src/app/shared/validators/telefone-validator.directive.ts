@@ -16,6 +16,9 @@ export class PhoneValidator implements Validator {
 export function regexValidator(regex: RegExp): ValidatorFn {
     return (control: FormControl): ValidationErrors | null => {
         if (!regex.test(control.value) && control.value) {
+            
+            console.log('', control.value);
+
             return { phoneValidator: true };
         }
         return null;

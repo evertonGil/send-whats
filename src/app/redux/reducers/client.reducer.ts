@@ -1,12 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import { ClientStoreType } from 'src/app/models/ClientType';
-import { signin, signout, updateUser } from '../actions/client.action';
+import { signin, signout, updateClient } from '../actions/client.action';
 
 
 const initalUser = {
     login: '',
-    role: 'admin',
-    signed: false
+    role: 'user',
+    signed: false,
+    token: undefined
 }
 
 export const initialState: ClientStoreType = {
@@ -15,7 +16,21 @@ export const initialState: ClientStoreType = {
 
 const _clientReducer = createReducer(
     initialState,
-    on(updateUser, (state) => state),
+    on(updateClient, (state, client) => {
+        return {
+            id: client.id,
+            name: client.name,
+            lastName: client.lastName,
+            docNumber: client.docNumber,
+            docType: client.docType,
+            email: client.email,
+            address: client.address,
+            phone: client.phone,
+            idUser: client.idUser,
+            status: client.status,
+            user: state.user
+        }
+    }),
     on(signin, (state, user) => {
 
         const newState = { ...state, user };

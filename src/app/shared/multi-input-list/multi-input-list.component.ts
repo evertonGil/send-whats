@@ -25,7 +25,7 @@ export class MultiInputListComponent implements ControlValueAccessor {
 
   disabled: boolean;
 
-  _val = {};
+  _val: {[key:string]: string} = {};
   list_inputs = [];
 
   lastIndex = 0;
@@ -75,9 +75,10 @@ export class MultiInputListComponent implements ControlValueAccessor {
   }
 
   writeValue(array: string[]): void {
+
     if (Array.isArray(array)) {
       if (!array.length) {
-        array.push("");
+        array = [""];
       }
 
       this.resetInputs();
@@ -95,8 +96,12 @@ export class MultiInputListComponent implements ControlValueAccessor {
   registerOnChange(fn: (_: any) => void): void {
     this.onChange = fn;
   }
+  
   dispatchChange() {
-    this.onChange(Object.values(this._val));
+    const arrayValues = Object.values(this._val);
+    const arrayCleaned = arrayValues.filter(val => val);
+    
+    this.onChange(arrayCleaned);
   }
 
   registerOnTouched(fn: any): void {

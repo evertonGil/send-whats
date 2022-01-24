@@ -7,6 +7,8 @@ import { AuthLayoutRoutes } from './auth-layout.routing';
 import { LoginComponent } from '../../pages/login/login.component';
 import { RegisterComponent } from '../../pages/register/register.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { RegisterSucessComponent } from 'src/app/pages/register-sucess/register-sucess.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    RegisterSucessComponent
   ]
 })
 export class AuthLayoutModule { }

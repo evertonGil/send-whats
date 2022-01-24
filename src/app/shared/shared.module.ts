@@ -12,6 +12,7 @@ import { MultiInputListComponent } from './multi-input-list/multi-input-list.com
 import { InputRefDirective } from './input-control/input-ref.directive';
 import { PhoneValidator } from './validators/telefone-validator.directive';
 import { ShowPasswordDirective } from './show-password/show-password.directive';
+import { MaskDirective } from './input-mask/input-mask.directive';
 
 @NgModule({
   imports: [
@@ -30,7 +31,8 @@ import { ShowPasswordDirective } from './show-password/show-password.directive';
     MultiInputListComponent,
     InputRefDirective,
     PhoneValidator,
-    ShowPasswordDirective
+    ShowPasswordDirective,
+    MaskDirective
   ],
   exports: [
     FooterComponent,
@@ -40,7 +42,8 @@ import { ShowPasswordDirective } from './show-password/show-password.directive';
     MultiInputListComponent,
     InputRefDirective,
     PhoneValidator,
-    ShowPasswordDirective
+    ShowPasswordDirective,
+    MaskDirective
   ]
 })
 export class SharedModule { }

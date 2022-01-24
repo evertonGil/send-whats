@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { catchError } from 'rxjs';
 import { AddressType } from 'src/app/models/AddressType';
 import { AddressService } from 'src/app/services/address.service';
+import { ClientService } from 'src/app/services/client.service';
+import { MultiInputValidators } from 'src/app/shared/multi-input-list/multi-input-validator.directive';
 import { samePasswordValidator } from 'src/app/shared/validators/same-password.directive';
 
 @Component({
@@ -11,7 +16,13 @@ import { samePasswordValidator } from 'src/app/shared/validators/same-password.d
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private addressService: AddressService) { }
+  constructor(
+    private fb: FormBuilder,
+    private addressService: AddressService,
+    private clienService: ClientService,
+    private toastr: ToastrService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   registerForm = this.fb.group({
     name: ['', Validators.required],
@@ -24,14 +35,12 @@ export class RegisterComponent implements OnInit {
       district: ['', Validators.required],
       uf: ['', Validators.required],
       number: ['', Validators.required],
-      status: ['', Validators.required],
       city: ['', Validators.required],
       zipCode: ['', [Validators.required, Validators.minLength(8)]],
       country: ['', Validators.required],
-      complemento: ['', Validators.required]
+      complemento: ['']
     }),
-    phone: [[], [Validators.required, Validators.minLength(2)]],
-    idUser: ['', Validators.required],
+    phone: [[], [Validators.required, MultiInputValidators.minItemValidator(1)]],
     user: this.fb.group({
       password: ['', Validators.required],
       passwordAgain: ['', [Validators.required]]
@@ -44,10 +53,28 @@ export class RegisterComponent implements OnInit {
   onSubmit(event: Event) {
 
     event.preventDefault();
-    
+
     this.registerForm.markAllAsTouched();
 
     console.log(this.registerForm.value);
+    
+
+    if (this.registerForm.valid) {
+      this.clienService
+        .create(this.registerForm.value)
+        .pipe(catchError(error => {
+
+          this.toastr.error('', 'Não foi possivel finalizar seu cadastro, por favor entre em contato com o suporte!')
+
+          return error;
+        }))
+        .subscribe(_ => {
+
+          this.router.navigate(['step2'], {relativeTo: this.activatedRoute});
+        })
+    } else {
+      this.toastr.error('', 'Por favor, corrija os erros no formulário!');
+    }
   }
 
   dispatchSearchZipCode() {

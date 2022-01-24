@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { UserStoreType } from 'src/app/models/ClientType';
+import { ClientApiType, UserStoreType } from 'src/app/models/ClientType';
 
-export const updateUser = createAction('[User] update user', props<{ bookId: string }>());
-export const signin = createAction('[User] signin', props<UserStoreType>());
-export const signout = createAction('[User] signout');
+export const updateClient = createAction('[Client] update client', props<ClientApiType>());
+export const signin = createAction('[Client] signin', props<UserStoreType>());
+export const signout = createAction('[Client] signout');
