@@ -37,4 +37,32 @@ export class ClientService {
             });
     }
 
+    update(client: ClientApiType) {
+        return this.httpClient.put<ReponseWrapper<{ client: ClientApiType }>>(
+            `${environment.FEATURE_API}/Clients`,
+            client,
+            {
+                headers: {
+                    'Access-Control-Allow-Credentials': 'true'
+                    , 'Content-Type': 'application/json'
+                    , 'Access-Control-Allow-Origin': '*'
+                }
+            });
+    }
+
+    confirmEmail(token: string){
+        return this.httpClient.post<ReponseWrapper<{ client: ClientApiType }>>(
+            `${environment.FEATURE_API}/Authenticate/ValidEmail`,
+            undefined,
+            {
+                headers: {
+                    'Access-Control-Allow-Credentials': 'true'
+                    , 'Content-Type': 'application/json'
+                    , 'Access-Control-Allow-Origin': '*'
+                    , 'Authorization': `Bearer ${token}`
+                    , 'Skip-Auth-Iterceptor': 'true'
+                }
+            });
+    }
+
 }

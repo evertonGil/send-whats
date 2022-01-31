@@ -3,13 +3,13 @@
 
   <div [ngClass]="{'input-group': true, 'input-group-alternative': true, 'ng-invalid': !valid,'ng-touched': touched}" >
 
-    <div *ngIf="iconAddon" class="input-group-prepend">
+    <div *ngIf="iconAddon" [ngClass]="{'input-group-prepend': true, 'disabled': inputControl.disabled}" >
       <span firstAppend class="input-group-text"><i [ngClass]="iconAddon"></i></span>
     </div>
 
     <ng-content select="[dwsInputSlot]"></ng-content>
 
-    <div *ngIf="showAppend" class="input-group-append">
+    <div *ngIf="showAppend" [ngClass]="{'input-group-append': true, 'disabled': inputControl.disabled}">
       <ng-content select="[append]"></ng-content>
     </div>
 

@@ -76,3 +76,8 @@
 		border-color: $input-group-addon-focus-border-color;
 	}
 }
+
+.input-group-append.disabled button,
+.input-group-prepend.disabled .input-group-text {
+background-color: $gray-200;
+}

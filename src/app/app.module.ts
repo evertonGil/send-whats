@@ -21,6 +21,7 @@ import { MetaReducer, StoreModule } from '@ngrx/store';
 import { clientReducer } from './redux/reducers/client.reducer';
 import { hydrationMetaReducer } from './redux/meta-reducers/hydrationMetaReducer';
 import { ClientService } from './services/client.service';
+import { ContactListService } from './services/contact-list.service';
 
 export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
 
@@ -46,6 +47,7 @@ export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
     AuthService, 
     AddressService,
     ClientService,
+    ContactListService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

@@ -1,6 +1,5 @@
-import { UserApiType } from "./ClientType";
 
-export type ReponseWrapper<T> =  T & {
+export type ReponseWrapper<T = {}> =  T & {
     data: {
         message: string
         status: number

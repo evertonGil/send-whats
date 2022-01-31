@@ -13,6 +13,7 @@ import { InputRefDirective } from './input-control/input-ref.directive';
 import { PhoneValidator } from './validators/telefone-validator.directive';
 import { ShowPasswordDirective } from './show-password/show-password.directive';
 import { MaskDirective } from './input-mask/input-mask.directive';
+import { ProfileDropdownComponent } from './profile-dropdown/profile-dropdown.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { MaskDirective } from './input-mask/input-mask.directive';
     InputRefDirective,
     PhoneValidator,
     ShowPasswordDirective,
-    MaskDirective
+    MaskDirective,
+    ProfileDropdownComponent
   ],
   exports: [
     FooterComponent,
@@ -43,7 +45,8 @@ import { MaskDirective } from './input-mask/input-mask.directive';
     InputRefDirective,
     PhoneValidator,
     ShowPasswordDirective,
-    MaskDirective
+    MaskDirective,
+    ProfileDropdownComponent
   ]
 })
 export class SharedModule { }

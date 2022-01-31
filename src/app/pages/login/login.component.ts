@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           console.log('err', err);
           if (err.error) {
             this.messageApiError = 'Usuario ou senha invalidos!';
-            this.toastr.error('', 'Usuario ou senha invalidos!');
+            this.toastr.error('Usuario ou senha invalidos!');
           }
           return throwError(err.message);
         }))

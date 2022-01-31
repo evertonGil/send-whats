@@ -25,7 +25,7 @@ export class MultiInputListComponent implements ControlValueAccessor {
 
   disabled: boolean;
 
-  _val: {[key:string]: string} = {};
+  _val: { [key: string]: string } = {};
   list_inputs = [];
 
   lastIndex = 0;
@@ -50,10 +50,12 @@ export class MultiInputListComponent implements ControlValueAccessor {
   }
 
   addNewInput() {
-    this.lastIndex++;
-    this.createInput(Random.makeNewKey(5, this.lastIndex), "");
-    this.dispatchChange();
-    this.dispatchTouch();
+    if (!this.disabled) {
+      this.lastIndex++;
+      this.createInput(Random.makeNewKey(5, this.lastIndex), "");
+      this.dispatchChange();
+      this.dispatchTouch();
+    }
   }
 
   createInput(key: string, value: string) {
@@ -67,11 +69,13 @@ export class MultiInputListComponent implements ControlValueAccessor {
   }
 
   removeInput(key) {
-    delete this._val[key];
-    this.list_inputs.splice(this.list_inputs.indexOf(key), 1)
+    if (!this.disabled) {
+      delete this._val[key];
+      this.list_inputs.splice(this.list_inputs.indexOf(key), 1)
 
-    this.dispatchChange();
-    this.dispatchTouch();
+      this.dispatchChange();
+      this.dispatchTouch();
+    }
   }
 
   writeValue(array: string[]): void {
@@ -96,11 +100,11 @@ export class MultiInputListComponent implements ControlValueAccessor {
   registerOnChange(fn: (_: any) => void): void {
     this.onChange = fn;
   }
-  
+
   dispatchChange() {
     const arrayValues = Object.values(this._val);
     const arrayCleaned = arrayValues.filter(val => val);
-    
+
     this.onChange(arrayCleaned);
   }
 

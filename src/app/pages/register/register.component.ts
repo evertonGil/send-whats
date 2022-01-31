@@ -51,29 +51,25 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(event: Event) {
-
     event.preventDefault();
-
     this.registerForm.markAllAsTouched();
 
-    console.log(this.registerForm.value);
-    
 
     if (this.registerForm.valid) {
       this.clienService
         .create(this.registerForm.value)
         .pipe(catchError(error => {
 
-          this.toastr.error('', 'Não foi possivel finalizar seu cadastro, por favor entre em contato com o suporte!')
+          this.toastr.error('Não foi possivel finalizar seu cadastro, por favor entre em contato com o suporte!')
 
           return error;
         }))
         .subscribe(_ => {
 
-          this.router.navigate(['step2'], {relativeTo: this.activatedRoute});
+          this.router.navigate(['step2'], { relativeTo: this.activatedRoute });
         })
     } else {
-      this.toastr.error('', 'Por favor, corrija os erros no formulário!');
+      this.toastr.error('Por favor, corrija os erros no formulário!');
     }
   }
 

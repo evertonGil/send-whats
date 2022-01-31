@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs';
-import { AddressType } from 'src/app/models/AddressType';
-import { AddressService } from 'src/app/services/address.service';
 import { ClientService } from 'src/app/services/client.service';
-import { MultiInputValidators } from 'src/app/shared/multi-input-list/multi-input-validator.directive';
-import { samePasswordValidator } from 'src/app/shared/validators/same-password.directive';
 
 @Component({
   selector: 'dsw-register',
@@ -15,8 +11,26 @@ import { samePasswordValidator } from 'src/app/shared/validators/same-password.d
 })
 export class RegisterSucessComponent implements OnInit {
 
-  constructor(private fb: FormBuilder, private addressService: AddressService, private clienService: ClientService, private toastr: ToastrService) { }  
+  emailConfirmed = false;
+
+  constructor(
+    private activatedR: ActivatedRoute,
+    private toastr: ToastrService,
+    private clienService: ClientService) { }
 
   ngOnInit() {
+    const emailValidate = this.activatedR.snapshot.queryParams['validaemail'];
+    if (emailValidate) {
+      this.clienService.confirmEmail(emailValidate)
+      .pipe(catchError(error => {
+        this.toastr.error('Não foi possivel confirmar se email, por favor entre em contato com o suporte!')
+        return error;
+      }))
+      .subscribe(_ => {
+        this.emailConfirmed = true;
+      });
+
+      
+    }
   }
 }
