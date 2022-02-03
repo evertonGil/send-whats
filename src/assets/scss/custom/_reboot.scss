@@ -11,3 +11,8 @@ main {
 main {
     overflow: hidden;
 }
+
+b,
+strong {
+  font-weight: $font-weight-bold;
+}

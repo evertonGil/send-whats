@@ -14,6 +14,9 @@ import { PhoneValidator } from './validators/telefone-validator.directive';
 import { ShowPasswordDirective } from './show-password/show-password.directive';
 import { MaskDirective } from './input-mask/input-mask.directive';
 import { ProfileDropdownComponent } from './profile-dropdown/profile-dropdown.component';
+import { TextEditComponent } from './tex-edit/text-edit.component';
+import { MsgDefaultComponent } from '../pages/msg-default/msg-default.component';
+import { FileImageViewComponent } from './file-image-view/file-image-view.component';
 
 @NgModule({
   imports: [
@@ -34,7 +37,10 @@ import { ProfileDropdownComponent } from './profile-dropdown/profile-dropdown.co
     PhoneValidator,
     ShowPasswordDirective,
     MaskDirective,
-    ProfileDropdownComponent
+    ProfileDropdownComponent,
+    TextEditComponent,
+    MsgDefaultComponent,
+    FileImageViewComponent
   ],
   exports: [
     FooterComponent,
@@ -46,7 +52,10 @@ import { ProfileDropdownComponent } from './profile-dropdown/profile-dropdown.co
     PhoneValidator,
     ShowPasswordDirective,
     MaskDirective,
-    ProfileDropdownComponent
+    ProfileDropdownComponent,
+    TextEditComponent,
+    MsgDefaultComponent,
+    FileImageViewComponent
   ]
 })
 export class SharedModule { }

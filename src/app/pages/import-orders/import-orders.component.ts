@@ -15,7 +15,7 @@ export class ImportOrdersComponent implements OnInit, AfterViewInit {
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLInputElement>;
   @ViewChild('importBox') importBox: ElementRef<HTMLDivElement>;
   files: File[] = [];
-  fileAccept = 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, text/csv';
+  fileAccept = 'text/csv';
   fileReader = new FileReader();
 
   constructor(private toastr: ToastrService, private contactListService: ContactListService) { }
@@ -94,7 +94,7 @@ export class ImportOrdersComponent implements OnInit, AfterViewInit {
 
     const filesValidated = Object.values(dt.files).filter(item => this.fileAccept.includes(item.type))
     if (!filesValidated.length) {
-      return this.toastr.error('Apenas .xls, .xlsx e .csv podem ser importados!');
+      return this.toastr.error('Apenas .csv podem ser importados!');
     }
 
     this.files = filesValidated;
