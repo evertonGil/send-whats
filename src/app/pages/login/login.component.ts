@@ -70,7 +70,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.messageApiError = 'Usuario ou senha invalidos!';
             this.toastr.error('Usuario ou senha invalidos!');
           }
-          return throwError(err.message);
+          return throwError(() => new Error(err.message));
         }))
         .subscribe(_ => {
           this.router.navigate(["/dashboard"]);

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { catchError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { AddressType } from 'src/app/models/AddressType';
 import { AddressService } from 'src/app/services/address.service';
 import { ClientService } from 'src/app/services/client.service';
@@ -32,12 +32,12 @@ export class RegisterComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     address: this.fb.group({
       address: ['', Validators.required],
-      district: ['', Validators.required],
+      district: [''],
       uf: ['', Validators.required],
       number: ['', Validators.required],
       city: ['', Validators.required],
       zipCode: ['', [Validators.required, Validators.minLength(8)]],
-      country: ['', Validators.required],
+      country: [''],
       complemento: ['']
     }),
     phone: [[], [Validators.required, MultiInputValidators.minItemValidator(1)]],
@@ -62,7 +62,7 @@ export class RegisterComponent implements OnInit {
 
           this.toastr.error('Não foi possivel finalizar seu cadastro, por favor entre em contato com o suporte!')
 
-          return error;
+          return throwError(() => error);
         }))
         .subscribe(_ => {
 

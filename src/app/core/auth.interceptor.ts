@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpEvent, HttpResponse, HttpRequest, HttpHandler } from '@angular/common/http';
-import { catchError, map, Observable } from 'rxjs';
+import { HttpInterceptor, HttpEvent, HttpResponse, HttpRequest, HttpHandler, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectToken } from '../redux/selectors.store';
 import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-
-const Unauthorized = 401;
+import { statusError } from '../variables/statusError';
 
 @Injectable()
 export class AuthTokenInterceptor implements HttpInterceptor {
@@ -29,18 +28,25 @@ export class AuthTokenInterceptor implements HttpInterceptor {
 
         return next
             .handle(authReq)
-            .pipe(catchError<any, any>(e => {
+            .pipe(catchError<any, any>((e: HttpErrorResponse) => {
                 console.log(e);
-                if (e.status === Unauthorized) {
-                    this.signOut();
+
+                switch(e.status){
+                    case statusError.Unauthorized:
+                        this.signOut();
+                        return throwError(() => e);
+                    case statusError.unknown:
+                        this.toastr.warning('Não foi possivel se conectar com o servidor!')
+                        return throwError(() => new Error(e.message));
                 }
-                return e;
+
+                
             }))
     }
 
     private signOut() {
         this.authService.SignOut()
-            .subscribe(e => {
+            .subscribe(_ => {
                 this.toastr.warning('Sua sessão expirou, realize o login novamente!');
             });
     }
