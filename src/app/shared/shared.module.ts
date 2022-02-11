@@ -17,6 +17,7 @@ import { ProfileDropdownComponent } from './profile-dropdown/profile-dropdown.co
 import { TextEditComponent } from './tex-edit/text-edit.component';
 import { MsgDefaultComponent } from '../pages/msg-default/msg-default.component';
 import { FileImageViewComponent } from './file-image-view/file-image-view.component';
+import { ModalBaseComponent } from './modal-base/modal-base.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { FileImageViewComponent } from './file-image-view/file-image-view.compon
     ProfileDropdownComponent,
     TextEditComponent,
     MsgDefaultComponent,
-    FileImageViewComponent
+    FileImageViewComponent,
+    ModalBaseComponent
   ],
   exports: [
     FooterComponent,
@@ -55,7 +57,8 @@ import { FileImageViewComponent } from './file-image-view/file-image-view.compon
     ProfileDropdownComponent,
     TextEditComponent,
     MsgDefaultComponent,
-    FileImageViewComponent
+    FileImageViewComponent,
+    ModalBaseComponent
   ]
 })
 export class SharedModule { }

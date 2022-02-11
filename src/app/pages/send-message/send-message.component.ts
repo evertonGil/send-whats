@@ -26,6 +26,7 @@ export class SendMessageComponent implements OnInit {
   listMsg: MessageType[] = [];
   listContactList: ContactListType[];
   client: ClientStoreType;  
+  showModal: boolean;
 
   msgForm = this.fb.group({
     listSend: [''],
@@ -71,8 +72,11 @@ export class SendMessageComponent implements OnInit {
 
   onSubmitForm(event: Event) {
     event.preventDefault();
+    this.showModal = true;
+  }
 
-    console.log('form', this.msgForm);
+  closeModal() {
+    this.showModal = false;
   }
 
 }
