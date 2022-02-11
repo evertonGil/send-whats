@@ -55,13 +55,14 @@ export class MsgDefaultComponent implements OnInit {
 
     console.log('form', this.msgForm);
 
-    this.messageService.post(this.msgForm.value.msg)
+    this.messageService.post(this.msgForm.value.msg, this.msgForm.value.title)
       .pipe(catchError(error => {
         this.toastr.error('Erro ao cadastrar nova mensagem, por favor contacte o suporte!!')
         return throwError(() => new Error(error.message));
       }))
       .subscribe(_ => {
         this.getMessages();
+        this.msgForm.reset({title: '', msg: '', image: ''})
       })
   }
 

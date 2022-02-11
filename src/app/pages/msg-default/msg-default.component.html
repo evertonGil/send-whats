@@ -17,7 +17,7 @@
                     <table class="table align-items-center table-flush">
                         <tbody>
                             <tr *ngFor="let item of listMsg">
-                                <th scope="row">{{item.message.substr(0,10)}} {{item.id}}</th>
+                                <th scope="row">{{item.title}}</th>
                                 <td><i class="msg-edit fas fa-edit" (click)="editMsg(item)"></i> </td>
                             </tr>
                         </tbody>

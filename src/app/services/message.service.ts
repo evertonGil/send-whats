@@ -29,13 +29,13 @@ export class MessageService {
                 return throwError(() => new Error(error.message));
             }),
             map(res => {
-                this.store.dispatch(updateAll({ messages: res.messages.length ? res.messages : mockMsgs }))
+                this.store.dispatch(updateAll({ messages: res.messages }))
             })
         );
     }
 
-    post(message: string) {
-        return this.httpClient.post<ReponseWrapper>(`${environment.FEATURE_API}/Message?message=${encodeURIComponent(message)}`, {}, {
+    post(message: string, title: string) {
+        return this.httpClient.post<ReponseWrapper>(`${environment.FEATURE_API}/Message?message=${encodeURIComponent(message)}&title=${encodeURIComponent(title)}`, {}, {
             headers: {
                 'Access-Control-Allow-Credentials': 'true'
                 , 'Access-Control-Allow-Origin': '*'
@@ -63,26 +63,4 @@ export class MessageService {
 }
 
 
-export const mockMsgs: MessageType[] = [
-    {
-        id: "1",
-        idClient: "1",
-        "title": "Mensagem Envio normal 1",
-        "message": "dsadsa\n*dsanjkbjfksabj*\n_fdsanjkdsnbajkb_\nfdsadsa",
-        "picture": "https://www.adobe.com/br/express/create/media_19da0db39efaa40b43fa0f5fefb7aeb14328a929e.jpeg?width=400&format=jpeg&optimize=medium"
-    },
-    {
-        id: "1",
-        idClient: "1",
-        "title": "Mensagem Envio normal 2",
-        "message": "dsadsa\n*dsanjkbjfksabj*\n_fdsanjkdsnbajkb_\nfdsadsa",
-        "picture": "https://www.vaivai.com.br/wp-content/uploads/2020/05/FLYER.png"
-    },
-    {
-        id: "3",
-        idClient: "1",
-        "title": "Mensagem Envio normal 3",
-        "message": "dsadsa\n*dsanjkbjfksabj*\n_fdsanjkdsnbajkb_\nfdsadsa",
-        "picture": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-nMbGmB3O4o-4EYQCzeGGUhRDUMYqAccrUQ&usqp=CAU"
-    }
-]
+export const mockMsgs: MessageType[] = []
