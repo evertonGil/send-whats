@@ -11,7 +11,8 @@ export interface MessageType {
 }
 
 export interface MessageSendType {
-    idList: string,
-    message: string,
+    idList: string
+    message: string
     picture: string
+    phone: string
 }

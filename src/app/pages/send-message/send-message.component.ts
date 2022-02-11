@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
@@ -8,6 +8,7 @@ import { ContactListType } from 'src/app/models/ContactListType';
 import { MessageType } from 'src/app/models/MessageType';
 import { selectClient, selectMessages } from 'src/app/redux/selectors.store';
 import { ContactListService } from 'src/app/services/contact-list.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'dsw-send-message',
@@ -20,19 +21,20 @@ export class SendMessageComponent implements OnInit {
     private fb: FormBuilder,
     private toastr: ToastrService,
     private contactListService: ContactListService,
+    private messageService: MessageService,
     private store: Store
   ) { }
 
   listMsg: MessageType[] = [];
   listContactList: ContactListType[];
-  client: ClientStoreType;  
+  client: ClientStoreType;
   showModal: boolean;
 
   msgForm = this.fb.group({
-    listSend: [''],
-    numberWhatsApp: [''],
+    listSend: ['', Validators.required],
+    numberWhatsApp: ['', Validators.required],
     msgTemplate: [''],
-    msg: [''],
+    msg: ['', Validators.required],
     image: ['']
   })
 
@@ -72,7 +74,33 @@ export class SendMessageComponent implements OnInit {
 
   onSubmitForm(event: Event) {
     event.preventDefault();
-    this.showModal = true;
+
+    //Todo: voltar com modal
+    //this.showModal = true;
+    if (this.msgForm.valid) {
+
+      const { listSend, numberWhatsApp, msg } = this.msgForm.value;
+
+      this.messageService.send({ message: msg, phone: numberWhatsApp, idList: listSend, picture: '' })
+        .pipe(catchError(error => {
+          this.toastr.error(`Não foi possivel enviar a mensagem: ${error.error.message}`)
+          return throwError(() => new Error(error.message));
+        }))
+        .subscribe(_ => {
+
+          this.toastr.success(`Mensagem enviada com sucesso`);
+
+          this.msgForm.reset({
+            listSend: '',
+            numberWhatsApp: '',
+            msgTemplate: '',
+            msg: '',
+            image: ''
+          })
+        })
+    } else {
+      this.msgForm.markAllAsTouched();
+    }
   }
 
   closeModal() {

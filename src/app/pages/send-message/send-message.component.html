@@ -15,7 +15,7 @@
               <dsw-input-control label="Lista de envio" for="listSend">
                 <select dwsInputSlot class="form-control" id="listSend" formControlName="listSend">
                   <option value=""></option>
-                  <option *ngFor="let item of listContactList" [value]="item">{{item.name}}</option>
+                  <option *ngFor="let item of listContactList" [value]="item.id">{{item.name}}</option>
                 </select>
               </dsw-input-control>
             </div>
@@ -69,7 +69,8 @@
   </form>
 </div>
 
-<dsw-modal-base [showModal]="showModal" (closeModal)="closeModal()">
+<!-- Todo: voltar com modal -->
+<!-- <dsw-modal-base [showModal]="showModal" (closeModal)="closeModal()">
   <div class="container p-5">
     <div class="row" >
       <div class="col-6">
@@ -110,4 +111,4 @@
       </div>
     </div>
   </div>
-</dsw-modal-base>
+</dsw-modal-base> -->
