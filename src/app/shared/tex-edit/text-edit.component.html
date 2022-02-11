@@ -8,6 +8,8 @@
                 class="fa fa-strikethrough fa-fw"></span></button>
         <button type="button" class="text_edit-button" *ngIf="monospace" (click)="format('monospace')"><span
                 class="fa fa-text-width fa-fw"></span></button>
+
+        <ng-content select="[dwsSlots]"></ng-content>
     </div>
     
     <textarea class="whatsapp-editor" #textArea contenteditable="true" [(ngModel)]="_value" [disabled]="isDisabled"></textarea>

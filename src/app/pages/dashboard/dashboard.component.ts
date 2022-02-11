@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import Chart from 'chart.js';
+import { catchError, throwError } from 'rxjs';
+import { DashboardService } from 'src/app/services/dashboard.service';
 
 // core components
 import {
@@ -16,6 +18,10 @@ import {
 })
 export class DashboardComponent implements OnInit {
 
+  constructor(
+    private dashboardService: DashboardService
+    ){}
+
   public datasets: any;
   public data: any;
   public salesChart;
@@ -23,6 +29,14 @@ export class DashboardComponent implements OnInit {
   public clicked1: boolean = false;
 
   ngOnInit() {
+
+    this.dashboardService.get()
+    .pipe(catchError(error => {
+      return throwError(() => new Error(error.message));
+    }))
+    .subscribe(res => {
+      console.log('getContactList', res);
+    });
 
     this.datasets = [
       [0, 20, 10, 30, 15, 40, 20, 60, 60],

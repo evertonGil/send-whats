@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, throwError } from 'rxjs';
+import { MessageType } from 'src/app/models/MessageType';
+import { selectMessages } from 'src/app/redux/selectors.store';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'dsw-msg-default',
@@ -9,12 +15,19 @@ import { FormBuilder } from '@angular/forms';
 export class MsgDefaultComponent implements OnInit {
 
   constructor(
+    private messageService: MessageService,
+    private toastr: ToastrService,
+    private store: Store,
     private fb: FormBuilder
   ) { }
 
-  listMsg: msgType[] = mockMsgs;
+  listMsg: MessageType[];
 
   ngOnInit(): void {
+        
+    this.store.select(selectMessages).subscribe(messages => {
+      this.listMsg = messages;
+    });
   }
 
   msgForm = this.fb.group({
@@ -23,43 +36,33 @@ export class MsgDefaultComponent implements OnInit {
     image: ['']
   })
 
-  editMsg(msg: msgType) {
-    this.msgForm.setValue({
+  private getMessages() {
+    this.messageService.get()
+    .subscribe(_ => _);
+  }
+
+  editMsg(msg: MessageType) {
+    this.msgForm.patchValue({
       title: msg.title,
-      msg: msg.msg,
-      image: msg.image
+      msg: msg.message,
+      image: msg.picture
     })
   }
-  
+
 
   onSubmitForm(event: Event) {
     event.preventDefault();
 
-    console.log('form', this.msgForm)
+    console.log('form', this.msgForm);
+
+    this.messageService.post(this.msgForm.value.msg)
+      .pipe(catchError(error => {
+        this.toastr.error('Erro ao cadastrar nova mensagem, por favor contacte o suporte!!')
+        return throwError(() => new Error(error.message));
+      }))
+      .subscribe(_ => {
+        this.getMessages();
+      })
   }
 
 }
-
-type msgType = {
-  title: string;
-  msg: string;
-  image: string;
-}
-
-const mockMsgs: msgType[] = [
-  {
-    "title": "Mensagem Envio normal 1",
-    "msg": "dsadsa\n*dsanjkbjfksabj*\n_fdsanjkdsnbajkb_\nfdsadsa",
-    "image": "https://www.adobe.com/br/express/create/media_19da0db39efaa40b43fa0f5fefb7aeb14328a929e.jpeg?width=400&format=jpeg&optimize=medium"
-  },
-  {
-    "title": "Mensagem Envio normal 2",
-    "msg": "dsadsa\n*dsanjkbjfksabj*\n_fdsanjkdsnbajkb_\nfdsadsa",
-    "image": "https://www.vaivai.com.br/wp-content/uploads/2020/05/FLYER.png"
-  },
-  {
-    "title": "Mensagem Envio normal 3",
-    "msg": "dsadsa\n*dsanjkbjfksabj*\n_fdsanjkdsnbajkb_\nfdsadsa",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-nMbGmB3O4o-4EYQCzeGGUhRDUMYqAccrUQ&usqp=CAU"
-  }
-]

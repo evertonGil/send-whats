@@ -8,7 +8,7 @@ export interface ClientApiType {
   docType?: number
   email?: string
   address?: AddressType
-  phone?: string
+  phone?: string[]
   idUser?: string
   user?: UserApiType
   status?: number

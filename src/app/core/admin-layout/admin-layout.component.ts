@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientService } from 'src/app/services/client.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'dsw-admin-layout',
@@ -8,10 +9,14 @@ import { ClientService } from 'src/app/services/client.service';
 })
 export class AdminLayoutComponent implements OnInit {
 
-  constructor(private clientService: ClientService) { }
+  constructor(
+    private messageService: MessageService,
+    private clientService: ClientService
+    ) { }
 
   ngOnInit() {
     this.clientService.get().subscribe(_ => _);
+    this.messageService.get().subscribe(_ => _);
   }
 
 }

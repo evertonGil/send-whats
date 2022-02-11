@@ -1,0 +1,65 @@
+export interface DashboardResType {
+    dataDashboard: DashboardType,
+    allDashboard: DashboardType[]
+}
+export interface DashboardType {
+    id: string,
+    dateTime: string,
+    idClient: string,
+    inactiveCustomers90Days: number,
+    inactiveCustomers60Days: number,
+    inactiveCustomers30Days: number,
+    orderQuantity: number,
+    averageTicket: number,
+    ordersDuringTheNigth: number,
+    ordersDuringTheDay: number,
+    ordersOnSunday: number,
+    ordersOnTuesday: number,
+    ordersOnWednesday: number,
+    ordersOnThursday: number,
+    ordersOnFriday: number,
+    ordersOnSaturday: number,
+    ordersOnMonday: number,
+    filter30Days: {
+        orderQuantity: number,
+        averageTicket: number,
+        revenues: number,
+        ordersDuringTheNigth: number,
+        ordersDuringTheDay: number,
+        ordersOnSunday: number,
+        ordersOnTuesday: number,
+        ordersOnWednesday: number,
+        ordersOnThursday: number,
+        ordersOnFriday: number,
+        ordersOnSaturday: number,
+        ordersOnMonday: number
+    },
+    filter60Days: {
+        orderQuantity: number,
+        averageTicket: number,
+        revenues: number,
+        ordersDuringTheNigth: number,
+        ordersDuringTheDay: number,
+        ordersOnSunday: number,
+        ordersOnTuesday: number,
+        ordersOnWednesday: number,
+        ordersOnThursday: number,
+        ordersOnFriday: number,
+        ordersOnSaturday: number,
+        ordersOnMonday: number
+    },
+    filter90Days: {
+        orderQuantity: number,
+        averageTicket: number,
+        revenues: number,
+        ordersDuringTheNigth: number,
+        ordersDuringTheDay: number,
+        ordersOnSunday: number,
+        ordersOnTuesday: number,
+        ordersOnWednesday: number,
+        ordersOnThursday: number,
+        ordersOnFriday: number,
+        ordersOnSaturday: number,
+        ordersOnMonday: number
+    }
+}
