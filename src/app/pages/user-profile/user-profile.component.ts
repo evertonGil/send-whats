@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
-import { catchError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 import { AddressType } from 'src/app/models/AddressType';
 import { ClientApiType, ClientStoreType } from 'src/app/models/ClientType';
 import { ReponseWrapper } from 'src/app/models/response-api-default';
@@ -22,6 +22,10 @@ export class UserProfileComponent implements OnInit {
   client: ClientStoreType;
   openPassword: boolean = false;
   openFormRegister: boolean = false;
+
+  get listFormPassword() {
+    return Object.values(this.passwordForm.controls)
+  }
 
   constructor(
     private store: Store,
@@ -54,7 +58,7 @@ export class UserProfileComponent implements OnInit {
 
   passwordForm = this.fb.group({
     oldPassword: ['', Validators.required],
-    newPassword: ['', Validators.required]
+    password: ['', Validators.required]
   })
 
   ngOnInit() {
@@ -101,16 +105,16 @@ export class UserProfileComponent implements OnInit {
 
     if (this.registerForm.valid) {
 
-      const {role, id, login} = this.client.user;
+      const { role, id, login } = this.client.user;
 
       const clientNew = {
         ...this.client,
         ...this.registerForm.value,
-        user:{
+        user: {
           role, id, login
         }
       }
-      
+
       console.log('clientNew', clientNew);
 
       this.clienService.update(clientNew)
@@ -118,7 +122,7 @@ export class UserProfileComponent implements OnInit {
 
           this.toastr.error('Não foi possivel finalizar seu cadastro, por favor entre em contato com o suporte!');
 
-          return error;
+          return throwError(() => error);;
         }))
         .subscribe((res: ReponseWrapper<{ client: ClientApiType }>) => {
           this.toastr.success('Dados alterados com sucesso!');
@@ -136,6 +140,46 @@ export class UserProfileComponent implements OnInit {
     event.preventDefault();
     this.passwordForm.markAllAsTouched();
     console.log(this.passwordForm.value);
+
+    if (this.passwordForm.valid) {
+      const { oldPassword, password } = this.passwordForm.value;
+
+      this.clienService.ChangePassword({ email: this.client.email, oldPassword, password })
+        .pipe(catchError((error, c) => {
+
+          this.toastr.error(`Não foi possivel trocar o password: ${error?.error?.data?.message}`);
+          this.setErrorOnPasswordInputs(error);
+          return throwError(() => error);
+        }))
+        .subscribe(_ => {
+          this.toastr.success('Senha alterado com sucesso!');
+          this.clearErrorPasswordInputs();
+          this.resetPasswordForm();
+        })
+    }
+  }
+
+  private setErrorOnPasswordInputs(error: any) {
+    this.listFormPassword.forEach(control => {
+      control.setErrors({ apiError: error?.error?.data?.message });
+    })
+
+    const sub = this.passwordForm.valueChanges.subscribe(_ => {
+      this.clearErrorPasswordInputs();
+      sub.unsubscribe();
+    });
+  }
+
+  private clearErrorPasswordInputs() {
+    this.listFormPassword.forEach(control => {
+      if (control?.errors) {
+        delete control.errors.apiError;
+      }
+    });
+  }
+
+  resetPasswordForm() {
+    this.passwordForm.reset({ oldPassword: '', password: '' });
   }
 
   dispatchSearchZipCode() {
@@ -145,6 +189,10 @@ export class UserProfileComponent implements OnInit {
 
     if (zipCode.length >= 8) {
       this.addressService.getAddressByZipCode(zipCode)
+        .pipe(catchError(error => {
+          this.toastr.error('Não foi possivel encontrar o Cep!');
+          return throwError(() => error);
+        }))
         .subscribe((res: { address: AddressType }) => {
           const { address } = res;
 

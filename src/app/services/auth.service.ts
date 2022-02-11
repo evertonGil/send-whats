@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
-import { catchError, map, Subject, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { map, Subject } from 'rxjs';
 import { ClientApiType, UserStoreType, UserType } from '../models/ClientType';
 import { environment } from 'src/environments/environment';
 import { Store } from '@ngrx/store';
@@ -51,5 +51,7 @@ export class AuthService {
     checkLogin(): boolean {
         return this.userClient.signed;
     }
+
+
 
 }

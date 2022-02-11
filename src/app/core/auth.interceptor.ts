@@ -38,6 +38,8 @@ export class AuthTokenInterceptor implements HttpInterceptor {
                     case statusError.unknown:
                         this.toastr.warning('Não foi possivel se conectar com o servidor!')
                         return throwError(() => new Error(e.message));
+                    default:
+                        return throwError(() => e);  
                 }
 
                 

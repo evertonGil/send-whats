@@ -25,6 +25,7 @@ export interface UserApiType extends UserType {
 export interface UserStoreType extends UserType {
   token: string
   signed: boolean
+  // limitLoggedIn: Date
 }
 
 export interface UserType {
@@ -32,5 +33,12 @@ export interface UserType {
   login?: string
   password?: string
   role: string  
+}
+
+
+export interface NewPassWordType {
+  email: string,
+  password: string,
+  oldPassword: string
 }
 
