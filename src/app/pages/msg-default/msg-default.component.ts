@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, throwError } from 'rxjs';
@@ -13,6 +13,8 @@ import { MessageService } from 'src/app/services/message.service';
   styleUrls: ['./msg-default.component.scss']
 })
 export class MsgDefaultComponent implements OnInit {
+  showModal: boolean;
+  msgToDelete: MessageType;
 
   constructor(
     private messageService: MessageService,
@@ -24,21 +26,21 @@ export class MsgDefaultComponent implements OnInit {
   listMsg: MessageType[];
 
   ngOnInit(): void {
-        
+
     this.store.select(selectMessages).subscribe(messages => {
       this.listMsg = messages;
     });
   }
 
   msgForm = this.fb.group({
-    title: [''],
-    msg: [''],
+    title: ['', Validators.required],
+    msg: ['', Validators.required],
     image: ['']
   })
 
   private getMessages() {
     this.messageService.get()
-    .subscribe(_ => _);
+      .subscribe(_ => _);
   }
 
   editMsg(msg: MessageType) {
@@ -49,19 +51,46 @@ export class MsgDefaultComponent implements OnInit {
     })
   }
 
-
   onSubmitForm(event: Event) {
     event.preventDefault();
 
+    if (this.msgForm.invalid) {
+      this.msgForm.markAllAsTouched();
+      return;
+    }
+
     this.messageService.post(this.msgForm.value.msg, this.msgForm.value.title)
       .pipe(catchError(error => {
-        this.toastr.error('Erro ao cadastrar nova mensagem, por favor contacte o suporte!!')
+        this.toastr.error('Erro ao cadastrar nova mensagem, por favor contacte o suporte!');
         return throwError(() => new Error(error.message));
       }))
       .subscribe(_ => {
         this.getMessages();
-        this.msgForm.reset({title: '', msg: '', image: ''})
+        this.msgForm.reset({ title: '', msg: '', image: '' })
       })
+
   }
 
+  deleteMsg() {
+    this.messageService.delete(this.msgToDelete)
+      .pipe(catchError(error => {
+        this.toastr.error('Erro ao deletar mensagem, por favor contacte o suporte!');
+        return throwError(() => new Error(error.message));
+      }))
+      .subscribe(_ => {
+        this.msgToDelete = undefined;
+        this.closeModal();
+        this.toastr.success('Mensagem deletada com sucesso!');
+        this.getMessages();
+      });
+  }
+
+  openModal(msg: MessageType) {
+    this.showModal = true;
+    this.msgToDelete = msg;
+  }
+
+  closeModal() {
+    this.showModal = false;
+  }
 }

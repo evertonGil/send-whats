@@ -12,5 +12,5 @@
         <ng-content select="[dwsSlots]"></ng-content>
     </div>
     
-    <textarea class="whatsapp-editor" #textArea contenteditable="true" [(ngModel)]="_value" [disabled]="isDisabled"></textarea>
+    <textarea class="whatsapp-editor" #textArea contenteditable="true" [(ngModel)]="_value" [disabled]="isDisabled" (change)="onKeypress()" (blur)="onTouch()"></textarea>
 </div>

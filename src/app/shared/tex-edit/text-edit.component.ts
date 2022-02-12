@@ -51,12 +51,8 @@ export class TextEditComponent implements ControlValueAccessor {
         this.isDisabled = isDisabled;
     }
 
-    onKeypress(e: KeyboardEvent) {
-        const el = this.textArea.nativeElement;
-        if (e.charCode === 96 || e.charCode === 95 || e.charCode === 126 || e.charCode === 42) {
-            return false;
-        }
-        this.onChange(el.value)
+    onKeypress() {
+        this.onChange(this._value);
     }
 
     format(command) {

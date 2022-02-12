@@ -17,8 +17,9 @@
                     <table class="table align-items-center table-flush">
                         <tbody>
                             <tr *ngFor="let item of listMsg">
-                                <th scope="row">{{item.title}}</th>
-                                <td><i class="msg-edit fas fa-edit" (click)="editMsg(item)"></i> </td>
+                                <th scope="row" class="w-100">{{item.title}}</th>
+                                <td><i class="msg-edit fas fa-edit text-blue" (click)="editMsg(item)"></i> </td>
+                                <td><i class="msg-edit fas fa-trash text-warning" (click)="openModal(item)"></i> </td>
                             </tr>
                         </tbody>
                     </table>
@@ -49,6 +50,7 @@
                             </div>
                         </div>
 
+                        <!-- Todo voltar com imagem depois que a API suportar -->
                         <!-- <div class="row mb-3">
                             <div class="col-12">                                
                                 <label class="form-control-label" for="image">Imagem</label>
@@ -67,3 +69,14 @@
         </div>
     </div>
 </div>
+
+<dsw-modal-base [showModal]="showModal" (closeModal)="closeModal()">
+    <div class="container p-5">
+        <p>Você realmente deseja excluir esta mensagem?</p>
+
+        <p class="">
+            <button class="btn btn-success" (click)="deleteMsg()">Sim</button>
+            <button class="btn btn-warning" (click)="closeModal()">Não</button>
+        </p>
+    </div>
+</dsw-modal-base>

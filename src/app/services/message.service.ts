@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ContactListType } from '../models/ContactListType';
 import { ReponseWrapper } from '../models/response-api-default';
 import { environment } from 'src/environments/environment';
 import { MessageResponseType, MessageSendType, MessageType } from '../models/MessageType';
@@ -25,7 +24,7 @@ export class MessageService {
             }
         }).pipe(
             catchError(error => {
-                this.toastr.error('Erro ao procurar a lista de mensagens, por favor contacte o suporte!!');
+                this.toastr.error('Erro ao procurar a lista de mensagens, por favor contacte o suporte!');
                 return throwError(() => new Error(error.message));
             }),
             map(res => {
