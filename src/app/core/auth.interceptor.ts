@@ -29,20 +29,16 @@ export class AuthTokenInterceptor implements HttpInterceptor {
         return next
             .handle(authReq)
             .pipe(catchError<any, any>((e: HttpErrorResponse) => {
-                console.log(e);
-
                 switch(e.status){
                     case statusError.Unauthorized:
                         this.signOut();
                         return throwError(() => e);
                     case statusError.unknown:
-                        this.toastr.warning('Não foi possivel se conectar com o servidor!')
+                        this.toastr.warning('Não foi possivel se conectar com o servidor!');
                         return throwError(() => new Error(e.message));
                     default:
                         return throwError(() => e);  
-                }
-
-                
+                }                
             }))
     }
 

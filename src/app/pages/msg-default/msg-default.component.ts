@@ -53,8 +53,6 @@ export class MsgDefaultComponent implements OnInit {
   onSubmitForm(event: Event) {
     event.preventDefault();
 
-    console.log('form', this.msgForm);
-
     this.messageService.post(this.msgForm.value.msg, this.msgForm.value.title)
       .pipe(catchError(error => {
         this.toastr.error('Erro ao cadastrar nova mensagem, por favor contacte o suporte!!')

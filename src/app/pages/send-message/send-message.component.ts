@@ -45,9 +45,6 @@ export class SendMessageComponent implements OnInit {
         return throwError(() => new Error(error.message));
       }))
       .subscribe(res => {
-
-        console.log('getContactList', res);
-
         this.listContactList = res.resume.contactLists;
       });
 

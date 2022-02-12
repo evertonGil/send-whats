@@ -39,18 +39,15 @@ export class ImportOrdersComponent implements OnInit, AfterViewInit {
 
     this.files.forEach(file => {
       formData.append('file', file);
-      console.log('formData', formData);
 
       this.contactListService.ImportListOrders(formData)
       .pipe(map(e => e))
       .pipe<ReponseWrapper>(catchError<any, any>(e => {
-        console.log(e);
         this.toastr.error('Não foi possivel importar o arquivo, entre em contato com suporte.')
         return e;
       }))
       .subscribe(res => {
         this.toastr.success('Arquivo importado com sucesso');
-        console.log(res.data.message);
         this.resetImport();
       });
       
@@ -98,7 +95,6 @@ export class ImportOrdersComponent implements OnInit, AfterViewInit {
     }
 
     this.files = filesValidated;
-    console.log(this.files);
   }
 
 }

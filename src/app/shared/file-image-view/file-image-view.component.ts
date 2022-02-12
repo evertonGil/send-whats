@@ -50,7 +50,6 @@ export class FileImageViewComponent implements OnInit, ControlValueAccessor {
     var reader = new FileReader();
 
     reader.onload = (evt) => {
-      console.log(evt.target.result);
       this.value = evt.target.result.toString();
 
       this.onChange(this.value);

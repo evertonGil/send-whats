@@ -38,7 +38,6 @@ export class MultiInputListComponent implements ControlValueAccessor {
 
   constructor() {
     this.createInput(Random.makeNewKey(5, this.lastIndex), "");
-    console.log('multi-list:', this);
   }
 
   ngOnChanges() {

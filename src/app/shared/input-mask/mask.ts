@@ -101,26 +101,8 @@ export function valueToFormat2(value: string, format: string, goingBack = false,
 
     }
 
-    console.log(newValue);
     return newValue;
 }
-
-// export function teste(arrayFormat: string[]): ((stringToFormat: string) => string)[] {
-//     let indexFormatRegex = 0;
-
-//     return arrayFormat.map(formatChar => {
-//         const formatRegex = getFormatRegexp(formatChar);
-//         if (!formatRegex) {
-//             return function (_) { return formatChar }
-//         } else {
-//             indexFormatRegex++;
-//             return function (stringToFormat: string) {
-//                 const valueMask = formatRegex.test(stringToFormat[indexFormatRegex]) ? stringToFormat[indexFormatRegex] : '';
-//                 return valueMask;
-//             }
-//         }
-//     })
-// }
 
 export function unmaskValue(value: string): string {
     const unmaskedMathes = value.match(_allFormatsGlobal);

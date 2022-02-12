@@ -50,14 +50,11 @@ export class AuthService {
         return subject;
     }
 
-    checkLogin(): boolean {
-        console.log('limitLoggedIn', this.userClient?.limitLoggedIn);
-        
+    checkLogin(): boolean {        
         if(this.userClient?.limitLoggedIn < Date.now()){
             this.SignOut();
             return false;
         }
-
         return this.userClient.signed;
     }
 

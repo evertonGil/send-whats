@@ -65,7 +65,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
       this.authService.signIn({ login, password, role: 'admin' })
         .pipe(catchError((err, _) => {
-          console.log('err', err);
           if (err.error) {
             this.messageApiError = 'Usuario ou senha invalidos!';
             this.toastr.error('Usuario ou senha invalidos!');

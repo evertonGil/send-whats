@@ -115,8 +115,6 @@ export class UserProfileComponent implements OnInit {
         }
       }
 
-      console.log('clientNew', clientNew);
-
       this.clienService.update(clientNew)
         .pipe(catchError(error => {
 
@@ -139,7 +137,6 @@ export class UserProfileComponent implements OnInit {
   onSubmitPassword(event: Event) {
     event.preventDefault();
     this.passwordForm.markAllAsTouched();
-    console.log(this.passwordForm.value);
 
     if (this.passwordForm.valid) {
       const { oldPassword, password } = this.passwordForm.value;
@@ -184,8 +181,6 @@ export class UserProfileComponent implements OnInit {
 
   dispatchSearchZipCode() {
     const zipCode = this.registerForm.value.address?.zipCode;
-
-    console.log('zipCode', zipCode);
 
     if (zipCode.length >= 8) {
       this.addressService.getAddressByZipCode(zipCode)

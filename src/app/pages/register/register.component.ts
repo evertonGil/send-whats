@@ -75,9 +75,7 @@ export class RegisterComponent implements OnInit {
 
   dispatchSearchZipCode() {
     const zipCode = this.registerForm.value.address?.zipCode;
-
-    console.log('zipCode', zipCode);
-
+    
     if (zipCode.length >= 8) {
       this.addressService.getAddressByZipCode(zipCode)
         .subscribe((res: { address: AddressType }) => {

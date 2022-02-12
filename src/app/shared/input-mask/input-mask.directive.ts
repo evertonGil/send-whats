@@ -36,7 +36,6 @@ export class MaskDirective implements OnInit {
         this.control.valueAccessor.registerOnChange((val: any) => {
             const t = originalChange(this._unmaskValue(val));
 
-            console.log('value2', this.control.value);
             return t;
         });
     }
@@ -46,7 +45,6 @@ export class MaskDirective implements OnInit {
         this.control.valueAccessor.writeValue = (val: any) => {
             const t = originalWriteVal(this._maskValue(val));
 
-            console.log('value1', this.control.value);
             return t;
         };
     }

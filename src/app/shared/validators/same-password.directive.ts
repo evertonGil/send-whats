@@ -20,8 +20,6 @@ export function samePasswordValidator(firstFormControl: string, secondFormContro
         const firstInput = formGroup.get(firstFormControl);
         const secondInput = formGroup.get(secondFormControl);
 
-        console.log('if:', firstInput?.value == secondInput?.value)
-
         if (firstInput?.value != secondInput?.value) {
             secondInput.setErrors({ samePassword: true });
             return { samePassword: true }

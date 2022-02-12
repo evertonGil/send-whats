@@ -12,7 +12,6 @@ export class InputRefDirective {
 
     @HostListener("focus")
     onFocus(teste) {
-        console.log('focus', teste)
         this.focus = true;
     }
 

@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
       return throwError(() => new Error(error.message));
     }))
     .subscribe(res => {
-      console.log('getContactList', res);
+      console.log('DashBoard', res);
     });
 
     this.datasets = [
