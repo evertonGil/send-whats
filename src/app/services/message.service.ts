@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ReponseWrapper } from '../models/response-api-default';
 import { environment } from 'src/environments/environment';
-import { MessageResponseType, MessageSendType, MessageType } from '../models/MessageType';
+import { MessagePutType, MessageResponseType, MessageSendType, MessageType } from '../models/MessageType';
 import { catchError, map, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { updateAll } from '../redux/actions/message.action';
@@ -35,6 +35,15 @@ export class MessageService {
 
     post(message: string, title: string) {
         return this.httpClient.post<ReponseWrapper>(`${environment.FEATURE_API}/Message?message=${encodeURIComponent(message)}&title=${encodeURIComponent(title)}`, {}, {
+            headers: {
+                'Access-Control-Allow-Credentials': 'true'
+                , 'Access-Control-Allow-Origin': '*'
+            }
+        });
+    }
+
+    put(message: MessagePutType) {
+        return this.httpClient.put<ReponseWrapper>(`${environment.FEATURE_API}/Message`, message, {
             headers: {
                 'Access-Control-Allow-Credentials': 'true'
                 , 'Access-Control-Allow-Origin': '*'

@@ -10,6 +10,14 @@ export interface MessageType {
     picture: string
 }
 
+export interface MessagePutType {
+    idMessage: string
+    title: string
+    idClient: string
+    message: string
+    picture: string
+}
+
 export interface MessageSendType {
     idList: string
     message: string
