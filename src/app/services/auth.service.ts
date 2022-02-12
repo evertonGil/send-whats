@@ -11,17 +11,18 @@ import { ReponseWrapper } from '../models/response-api-default';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
     userClient: UserStoreType;
+    hoursInMiliseconds = 3600000;
+    hoursLimitToken = 2;
 
     constructor(private httpClient: HttpClient, private store: Store) {
         store.select(selectUser)
-        .subscribe( res => {
-            this.userClient = res
-        });
+            .subscribe(res => {
+                this.userClient = res
+            });
 
-     }
+    }
 
     signIn({ login, password, role }: UserType) {
-        const subject = new Subject<{sucess: boolean,message: string }>();
 
         return this.httpClient
             .post<ReponseWrapper<ClientApiType>>(`${environment.FEATURE_API}/Authenticate/login`, { login, password, role }, {
@@ -31,10 +32,11 @@ export class AuthService {
                     , 'Access-Control-Allow-Origin': '*'
                 }
             }).pipe(map(res => {
-                const {role,  id, login, token} = res.user;
-                this.store.dispatch(signinAction({signed: true, role, id, login, token}));
+                const { role, id, login, token } = res.user;
+                const limitLoggedIn =  Date.now() + (this.hoursLimitToken * this.hoursInMiliseconds);
+                this.store.dispatch(signinAction({ signed: true, role, id, login, token, limitLoggedIn }));
                 return res;
-            }));         
+            }));
     }
 
     SignOut(): Subject<boolean> {
@@ -49,6 +51,13 @@ export class AuthService {
     }
 
     checkLogin(): boolean {
+        console.log('limitLoggedIn', this.userClient?.limitLoggedIn);
+        
+        if(this.userClient?.limitLoggedIn < Date.now()){
+            this.SignOut();
+            return false;
+        }
+
         return this.userClient.signed;
     }
 

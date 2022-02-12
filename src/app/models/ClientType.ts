@@ -25,7 +25,7 @@ export interface UserApiType extends UserType {
 export interface UserStoreType extends UserType {
   token: string
   signed: boolean
-  // limitLoggedIn: Date
+  limitLoggedIn: number
 }
 
 export interface UserType {

@@ -1,13 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
-import { ClientStoreType } from 'src/app/models/ClientType';
+import { ClientStoreType, UserStoreType } from 'src/app/models/ClientType';
 import { signin, signout, updateClient } from '../actions/client.action';
 
 
-const initalUser = {
+const initalUser: UserStoreType = {
     login: '',
     role: 'user',
     signed: false,
-    token: undefined
+    token: undefined,
+    limitLoggedIn: undefined
 }
 
 export const initialState: ClientStoreType = {
