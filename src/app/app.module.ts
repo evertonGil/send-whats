@@ -24,6 +24,11 @@ import { ClientService } from './services/client.service';
 import { ContactListService } from './services/contact-list.service';
 import { MessageService } from './services/message.service';
 import { messageReducer } from './redux/reducers/message.reducer';
+import { LOCALE_ID } from '@angular/core';
+
+import localePt from '@angular/common/locales/pt';
+import {registerLocaleData} from '@angular/common';
+registerLocaleData(localePt)
 
 export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
 
@@ -38,7 +43,7 @@ export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
     RouterModule,
     AppRoutingModule,
     ToastrModule.forRoot(),
-    StoreModule.forRoot({ client: clientReducer, messages: messageReducer }, {metaReducers})
+    StoreModule.forRoot({ client: clientReducer, messages: messageReducer }, { metaReducers })
   ],
   declarations: [
     AppComponent,
@@ -46,12 +51,13 @@ export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
     AuthLayoutComponent
   ],
   providers: [
-    AuthService, 
+    AuthService,
     AddressService,
     ClientService,
     ContactListService,
     MessageService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],
   bootstrap: [AppComponent]
 })

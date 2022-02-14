@@ -6,6 +6,7 @@ export interface DashboardType {
     id: string,
     dateTime: string,
     idClient: string,
+    activeCustomers: number,
     inactiveCustomers90Days: number,
     inactiveCustomers60Days: number,
     inactiveCustomers30Days: number,
@@ -20,6 +21,7 @@ export interface DashboardType {
     ordersOnFriday: number,
     ordersOnSaturday: number,
     ordersOnMonday: number,
+    revenues: number,
     filter30Days: {
         orderQuantity: number,
         averageTicket: number,

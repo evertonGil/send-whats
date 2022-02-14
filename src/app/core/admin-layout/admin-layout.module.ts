@@ -10,11 +10,12 @@ import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { IconsComponent } from '../../pages/icons/icons.component';
 import { ImportOrdersComponent } from '../../pages/import-orders/import-orders.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { SendMessageComponent } from 'src/app/pages/send-message/send-message.component';
-// import { ToastrModule } from 'ngx-toastr';
+import { ClientStatusChartComponent } from 'src/app/pages/dashboard/client-status-chart/client-status-chart.component';
+import { OrdersDayNightChartComponent } from 'src/app/pages/dashboard/orders-day-night-chart/orders-day-night-chart.component';
+import { OrdersWeekChartComponent } from 'src/app/pages/dashboard/orders-week-chart/orders-week-chart.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,10 @@ import { SendMessageComponent } from 'src/app/pages/send-message/send-message.co
     UserProfileComponent,
     IconsComponent,
     ImportOrdersComponent,
-    SendMessageComponent
+    SendMessageComponent,
+    ClientStatusChartComponent,
+    OrdersDayNightChartComponent,
+    OrdersWeekChartComponent
   ]
 })
 

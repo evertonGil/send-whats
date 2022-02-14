@@ -4,15 +4,25 @@
 
 .chart {
     position: relative;
-    height: $chart-height;
+    min-height: $chart-height-3;
 }
 
 
 // Size variations
-
-.chart-sm {
-    height: $chart-height-sm;
+.chart-1 {
+    min-height: $chart-height-1;
 }
+.chart-2 {
+    min-height: $chart-height-2;
+}
+
+.chart-3 {
+    min-height: $chart-height-3;
+}
+.chart-4 {
+    min-height: $chart-height-4;
+}
+
 
 
 // Legend
