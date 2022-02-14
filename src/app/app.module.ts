@@ -28,6 +28,7 @@ import { LOCALE_ID } from '@angular/core';
 
 import localePt from '@angular/common/locales/pt';
 import {registerLocaleData} from '@angular/common';
+import { SessionWhatsappService } from './services/session-whatsapp.service';
 registerLocaleData(localePt)
 
 export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
@@ -56,6 +57,7 @@ export const metaReducers: MetaReducer<any>[] = [hydrationMetaReducer];
     ClientService,
     ContactListService,
     MessageService,
+    SessionWhatsappService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'pt-BR' }
   ],

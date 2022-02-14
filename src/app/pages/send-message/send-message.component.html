@@ -5,7 +5,7 @@
   </div>
 </div>
 <div class="container-fluid mt--7">
-  <form [formGroup]="msgForm" class="row" (submit)="onSubmitForm($event)">
+  <form [formGroup]="msgForm" class="row" (ngSubmit)="openModal()">
     <div class="col-12">
       <div class="card bg-secondary shadow">
         <div class="card-body">
@@ -70,7 +70,7 @@
 </div>
 
 <!-- Todo: voltar com modal -->
-<!-- <dsw-modal-base [showModal]="showModal" (closeModal)="closeModal()">
+<dsw-modal-base [showModal]="showModal" (closeModal)="closeModal()">
   <div class="container p-5">
     <div class="row" >
       <div class="col-6">
@@ -102,7 +102,7 @@
         </ol>
       </div>
       <div class="col-6 whatsApp_qrcode-container">
-        <img src="https://cache.olhardigital.com.br/uploads/acervo_imagens/2019/06/20190628211430.jpg" class="whatsApp_qrcode-image" alt="">
+        <img *ngIf="whatsSession.qrCode" [src]="whatsSession.qrCode" class="whatsApp_qrcode-image" alt="">
       </div>
     </div>
     <div class="row">
@@ -111,4 +111,4 @@
       </div>
     </div>
   </div>
-</dsw-modal-base> -->
+</dsw-modal-base>

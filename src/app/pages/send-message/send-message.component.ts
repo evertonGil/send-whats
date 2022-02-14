@@ -9,6 +9,9 @@ import { MessageType } from 'src/app/models/MessageType';
 import { selectClient, selectMessages } from 'src/app/redux/selectors.store';
 import { ContactListService } from 'src/app/services/contact-list.service';
 import { MessageService } from 'src/app/services/message.service';
+import { io, Socket } from "socket.io-client";
+import { SessionWhastAppType } from 'src/app/models/SessionWhastAppType';
+import { SessionWhatsappService } from 'src/app/services/session-whatsapp.service';
 
 @Component({
   selector: 'dsw-send-message',
@@ -22,13 +25,24 @@ export class SendMessageComponent implements OnInit {
     private toastr: ToastrService,
     private contactListService: ContactListService,
     private messageService: MessageService,
+    private sessionWhatsappService: SessionWhatsappService,
     private store: Store
   ) { }
 
+  socket: Socket;
   listMsg: MessageType[] = [];
   listContactList: ContactListType[];
   client: ClientStoreType;
   showModal: boolean;
+  whatsSession: {
+    session: SessionWhastAppType,
+    qrCode: string,
+    connected: boolean
+  } = {
+      qrCode: '',
+      connected: false,
+      session: undefined
+    }
 
   msgForm = this.fb.group({
     listSend: ['', Validators.required],
@@ -39,6 +53,12 @@ export class SendMessageComponent implements OnInit {
   })
 
   ngOnInit() {
+    this.socket = io('http://localhost:3000', {
+      autoConnect: true
+    });
+
+    console.log('socket', this.socket);
+
     this.contactListService.getContactList()
       .pipe(catchError(error => {
         this.toastr.error('Não foi possivel encontrar a lista de contatos')
@@ -56,7 +76,74 @@ export class SendMessageComponent implements OnInit {
       this.listMsg = messages;
     });
 
-    this.client.phone
+    this.msgForm.controls.numberWhatsApp.valueChanges.subscribe(value => {
+      this.tryGetSessionWhatsapp(value)
+    });
+  }
+
+  tryGetSessionWhatsapp(value) {
+    this.sessionWhatsappService.get(value)
+    .pipe(catchError(error => {
+      this.toastr.error(`Problema ao recuperar a sessão do WhatsApp, por favor contacte o suporte!`);
+      return throwError(() => new Error(error.message));
+    }))
+    .subscribe(res => {
+      console.log('GET session', res);
+      if(res.sessionWhtas?.session){
+        this.whatsSession.connected = true;
+        this.whatsSession.session = {
+          WAToken1: res.sessionWhtas.session,
+          WAToken2: '',
+          WABrowserId: '',
+          WASecretBundle: ''
+        };
+
+      }
+    })
+    ;
+  }
+
+  initializeWhatsConection() {
+
+    this.socket.emit('initialize');
+
+    this.socket.on('message', function (msg) {
+      console.log('msg', msg);
+    });
+
+    this.socket.on('session', (session: SessionWhastAppType) => {
+      this.whatsSession.connected = true;
+      this.whatsSession.session = session;
+      this.toastr.info('Conexão com o WhatsApp realizada!');
+
+      this.sessionWhatsappService.post({idUser: this.client.idUser, phone: this.msgForm.value?.numberWhatsApp, session: session.WAToken1 })
+      .pipe(catchError(error => {
+        this.toastr.error(`Erro ao registrar a sessão do WhatsApp, por favor contacte o suporte!`);
+        return throwError(() => new Error(error.message));
+      }))
+      .subscribe(res => {
+        this.onSubmitForm();
+        this.closeModal();
+      });      
+    });
+
+    this.socket.on('qr', (src) => {
+      this.whatsSession.qrCode = src;
+    });
+
+    this.socket.on('ready', () => {
+      console.log('WhatsApp ready');
+    });
+
+    this.socket.on('disconnectedWhats', () => {
+      this.whatsSession = {
+        connected: false,
+        session: undefined,
+        qrCode: ''
+      }
+      console.log('WhatsApp desconectado');
+    });
+
   }
 
   selectMsgTemplate() {
@@ -69,39 +156,48 @@ export class SendMessageComponent implements OnInit {
     })
   }
 
-  onSubmitForm(event: Event) {
-    event.preventDefault();
-
-    //Todo: voltar com modal
-    //this.showModal = true;
-    if (this.msgForm.valid) {
-
-      const { listSend, numberWhatsApp, msg } = this.msgForm.value;
-
-      this.messageService.send({ message: msg, phone: numberWhatsApp, idList: listSend, picture: '' })
-        .pipe(catchError(error => {
-          this.toastr.error(`Não foi possivel enviar a mensagem: ${error.error.message}`)
-          return throwError(() => new Error(error.message));
-        }))
-        .subscribe(_ => {
-
-          this.toastr.success(`Mensagem enviada com sucesso`);
-
-          this.msgForm.reset({
-            listSend: '',
-            numberWhatsApp: '',
-            msgTemplate: '',
-            msg: '',
-            image: ''
-          })
-        })
-    } else {
-      this.msgForm.markAllAsTouched();
+  openModal() {
+    if (this.msgForm.invalid) {
+      return this.msgForm.markAllAsTouched();
+      
     }
+
+    if(this.whatsSession?.connected){
+      this.onSubmitForm();
+
+    } else {
+      this.showModal = true;
+      this.initializeWhatsConection();
+
+    }
+
+  }
+
+  onSubmitForm() {
+    const { listSend, numberWhatsApp, msg } = this.msgForm.value;
+
+    this.messageService.send({ message: msg, phone: numberWhatsApp, idList: listSend, picture: '' })
+      .pipe(catchError(error => {
+        this.toastr.error(`Não foi possivel enviar a mensagem: ${error.error.message}`)
+        return throwError(() => new Error(error.message));
+      }))
+      .subscribe(_ => {
+
+        this.toastr.success(`Mensagem enviada com sucesso`);
+
+        this.msgForm.reset({
+          listSend: '',
+          numberWhatsApp: '',
+          msgTemplate: '',
+          msg: '',
+          image: ''
+        })
+      });
   }
 
   closeModal() {
     this.showModal = false;
+    this.socket.emit('disconnect');
   }
 
 }
