@@ -30,7 +30,6 @@
     td,
     th {
         font-size: $table-body-font-size;
-        white-space: nowrap;
     }
 
 
@@ -111,8 +110,8 @@
 
         td,
         th {
-            padding-left: $card-spacer-x;
-            padding-right: $card-spacer-x;
+            padding-left: $table-cell-padding-sm;
+            padding-right: $table-cell-padding-sm;
         }
     }
 }
