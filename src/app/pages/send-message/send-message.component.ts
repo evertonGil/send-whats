@@ -12,6 +12,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { io, Socket } from "socket.io-client";
 import { SessionWhastAppType } from 'src/app/models/SessionWhastAppType';
 import { SessionWhatsappService } from 'src/app/services/session-whatsapp.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'dsw-send-message',
@@ -35,14 +36,14 @@ export class SendMessageComponent implements OnInit {
   client: ClientStoreType;
   showModal: boolean;
   whatsSession: {
-    session: SessionWhastAppType,
+    session: string,
     qrCode: string,
     connected: boolean
   } = {
       qrCode: '',
       connected: false,
       session: undefined
-    }
+    };
 
   msgForm = this.fb.group({
     listSend: ['', Validators.required],
@@ -53,8 +54,8 @@ export class SendMessageComponent implements OnInit {
   })
 
   ngOnInit() {
-    this.socket = io('http://localhost:3000', {
-      autoConnect: true
+    this.socket = io(`${environment.SOCKET_IO}`, {
+      transports: ['websocket']
     });
 
     console.log('socket', this.socket);
@@ -76,31 +77,26 @@ export class SendMessageComponent implements OnInit {
       this.listMsg = messages;
     });
 
-    this.msgForm.controls.numberWhatsApp.valueChanges.subscribe(value => {
-      this.tryGetSessionWhatsapp(value)
-    });
+
+    // this.tryGetSessionWhatsapp()
+
   }
 
-  tryGetSessionWhatsapp(value) {
-    this.sessionWhatsappService.get(value)
-    .pipe(catchError(error => {
-      this.toastr.error(`Problema ao recuperar a sessão do WhatsApp, por favor contacte o suporte!`);
-      return throwError(() => new Error(error.message));
-    }))
-    .subscribe(res => {
-      console.log('GET session', res);
-      if(res.sessionWhtas?.session){
-        this.whatsSession.connected = true;
-        this.whatsSession.session = {
-          WAToken1: res.sessionWhtas.session,
-          WAToken2: '',
-          WABrowserId: '',
-          WASecretBundle: ''
-        };
-
-      }
-    })
-    ;
+  tryGetSessionWhatsapp() {
+    this.msgForm.controls.numberWhatsApp.valueChanges.subscribe(value => {
+      this.sessionWhatsappService.get(value)
+        .pipe(catchError(error => {
+          this.toastr.error(`Problema ao recuperar a sessão do WhatsApp, por favor contacte o suporte!`);
+          return throwError(() => new Error(error.message));
+        }))
+        .subscribe(res => {
+          console.log('GET session', res);
+          if (res.sessionWhtas?.session) {
+            this.whatsSession.connected = true;
+            this.whatsSession.session =  res.sessionWhtas.session;
+          }
+        });
+    });
   }
 
   initializeWhatsConection() {
@@ -113,18 +109,18 @@ export class SendMessageComponent implements OnInit {
 
     this.socket.on('session', (session: SessionWhastAppType) => {
       this.whatsSession.connected = true;
-      this.whatsSession.session = session;
+      this.whatsSession.session = JSON.stringify(session);
       this.toastr.info('Conexão com o WhatsApp realizada!');
 
-      this.sessionWhatsappService.post({idUser: this.client.idUser, phone: this.msgForm.value?.numberWhatsApp, session: session.WAToken1 })
-      .pipe(catchError(error => {
-        this.toastr.error(`Erro ao registrar a sessão do WhatsApp, por favor contacte o suporte!`);
-        return throwError(() => new Error(error.message));
-      }))
-      .subscribe(res => {
-        this.onSubmitForm();
-        this.closeModal();
-      });      
+      this.sessionWhatsappService.post({ idUser: this.client.idUser, phone: this.msgForm.value?.numberWhatsApp, session: this.whatsSession.session })
+        .pipe(catchError(error => {
+          this.toastr.error(`Erro ao registrar a sessão do WhatsApp, por favor contacte o suporte!`);
+          return throwError(() => new Error(error.message));
+        }))
+        .subscribe(res => {
+          this.onSubmitForm();
+          this.closeModal();
+        });
     });
 
     this.socket.on('qr', (src) => {
@@ -135,13 +131,9 @@ export class SendMessageComponent implements OnInit {
       console.log('WhatsApp ready');
     });
 
-    this.socket.on('disconnectedWhats', () => {
-      this.whatsSession = {
-        connected: false,
-        session: undefined,
-        qrCode: ''
-      }
-      console.log('WhatsApp desconectado');
+    this.socket.on('disconnectedServerBrowser', () => {
+      console.log('disconnectedServerBrowser desconectado');
+      this.whatsSession.qrCode = '';
     });
 
   }
@@ -159,10 +151,10 @@ export class SendMessageComponent implements OnInit {
   openModal() {
     if (this.msgForm.invalid) {
       return this.msgForm.markAllAsTouched();
-      
+
     }
 
-    if(this.whatsSession?.connected){
+    if (this.whatsSession?.connected) {
       this.onSubmitForm();
 
     } else {
@@ -197,7 +189,7 @@ export class SendMessageComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
-    this.socket.emit('disconnect');
+    this.socket.emit('disconnectBrowser');
   }
 
 }

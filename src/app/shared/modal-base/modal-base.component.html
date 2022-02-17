@@ -1,5 +1,5 @@
 <div class="modal_base" *ngIf="showModal">
-    <div class="modal_base-overlay"></div>
+    <div class="modal_base-overlay" (click)="closeModal.emit()"></div>
     <div class="modal_base-container">
         <button type="button" class="close modal_base-close" (click)="closeModal.emit()" aria-label="Close">
             <span >×</span>
