@@ -133,6 +133,7 @@ export class SendMessageComponent implements OnInit {
 
     this.socket.on('disconnectedServerBrowser', () => {
       console.log('disconnectedServerBrowser desconectado');
+      this.socket.removeAllListeners();
       this.whatsSession.qrCode = '';
     });
 

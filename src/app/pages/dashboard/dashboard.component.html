@@ -125,15 +125,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of [1,2,3,4,5,6]">
+              <tr *ngFor="let item of dataDash?.dataDashboard?.Listmessage">
                 <th scope="row">
-                  /argon/
+                 {{item.nameList}}
                 </th>
                 <td>
-                  4,569
+                  {{item.qtdClients | number :'4.0-0':'pt-BR'}}
                 </td>
                 <td>
-                  340
+                 {{item.dateTime  | date: 'dd/MM/yyyy' : '+0300'}}
                 </td>
               </tr>
             </tbody>
