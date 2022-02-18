@@ -4,6 +4,7 @@ import { ReponseWrapper } from '../models/response-api-default';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { ContactListType } from '../models/ContactListType';
+import { ContactList } from '../models/ContactList';
 
 @Injectable({ providedIn: 'root' })
 export class ContactListService {
@@ -25,5 +26,15 @@ export class ContactListService {
                 , 'Access-Control-Allow-Origin': '*'
             }
         })
+    }
+
+      
+    get(idList:string){
+        return this.httpClient.get<ReponseWrapper<ContactList>>(`${environment.FEATURE_API}/ContactList/${idList}`,{
+            headers: {
+                'Access-Control-Allow-Credentials': 'true'
+                , 'Access-Control-Allow-Origin': '*'
+            }
+        });
     }
 }

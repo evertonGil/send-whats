@@ -13,6 +13,7 @@ import { io, Socket } from "socket.io-client";
 import { SessionWhastAppType } from 'src/app/models/SessionWhastAppType';
 import { SessionWhatsappService } from 'src/app/services/session-whatsapp.service';
 import { environment } from 'src/environments/environment';
+import { Contact } from 'src/app/models/ContactList';
 
 @Component({
   selector: 'dsw-send-message',
@@ -35,6 +36,7 @@ export class SendMessageComponent implements OnInit {
   listContactList: ContactListType[];
   client: ClientStoreType;
   showModal: boolean;
+  contactList: Contact[];
   whatsSession: {
     session: string,
     qrCode: string,
@@ -112,15 +114,15 @@ export class SendMessageComponent implements OnInit {
       this.whatsSession.session = JSON.stringify(session);
       this.toastr.info('Conexão com o WhatsApp realizada!');
 
-      this.sessionWhatsappService.post({ idUser: this.client.idUser, phone: this.msgForm.value?.numberWhatsApp, session: this.whatsSession.session })
-        .pipe(catchError(error => {
-          this.toastr.error(`Erro ao registrar a sessão do WhatsApp, por favor contacte o suporte!`);
-          return throwError(() => new Error(error.message));
-        }))
-        .subscribe(res => {
-          this.onSubmitForm();
-          this.closeModal();
-        });
+      // this.sessionWhatsappService.post({ idUser: this.client.idUser, phone: this.msgForm.value?.numberWhatsApp, session: this.whatsSession.session })
+      //   .pipe(catchError(error => {
+      //     this.toastr.error(`Erro ao registrar a sessão do WhatsApp, por favor contacte o suporte!`);
+      //     return throwError(() => new Error(error.message));
+      //   }))
+      //   .subscribe(res => {
+      //     this.onSubmitForm();
+      //     // this.closeModal();
+      //   });
     });
 
     this.socket.on('qr', (src) => {
@@ -192,4 +194,21 @@ export class SendMessageComponent implements OnInit {
     this.socket.emit('disconnectBrowser');
   }
 
+  sendMessage(){
+    const { listSend, numberWhatsApp, msg } = this.msgForm.value;
+
+    this.contactListService.get(listSend)
+    .pipe(catchError(error => {
+      this.toastr.error('Não foi possivel encontrar a lista de contatos')
+      return throwError(() => new Error(error.message));
+    }))
+    .subscribe(res => {
+      this.contactList = res.contactList;
+      this.contactList.forEach(contact => {
+        this.socket.emit('sendMessage', contact.phone, msg );
+      });
+     
+    });
+
+  }
 }
